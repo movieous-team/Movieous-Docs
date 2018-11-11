@@ -10,6 +10,4 @@
 
 [点击查看官网](https://www.movieous.cn/)
 
-![demo-2.png](../_images/loading_page.jpg "")
-
-部署方式查看: https://docsify.js.org/#/
+![demo-2.png](../_images/loading_page.jpg)
