@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0c992152-d89c-4fb5-8852-c91ab96675b1" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/iOS_quickstart.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/_images/iOS_input.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/_sidebar.md" beforeDir="false" afterPath="$PROJECT_DIR$/_sidebar.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boardState.md" beforeDir="false" afterPath="$PROJECT_DIR$/Android_Guide.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/broadcaster.md" beforeDir="false" afterPath="$PROJECT_DIR$/iOS_Guide.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jsSDK.md" beforeDir="false" afterPath="$PROJECT_DIR$/iOS_SDK.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quickstart.md" beforeDir="false" afterPath="$PROJECT_DIR$/Android_quickstart.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reactSDK.md" beforeDir="false" afterPath="$PROJECT_DIR$/Android_SDK.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/releaseNote.md" beforeDir="false" afterPath="$PROJECT_DIR$/releaseNote.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boardTool.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/iOS_Guide.md" beforeDir="false" afterPath="$PROJECT_DIR$/iOS_Guide.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -30,8 +24,20 @@
         <entry file="file://$PROJECT_DIR$/_sidebar.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="187">
-                <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+              <first_editor relative-caret-position="391">
+                <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="iOS_Guide.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/iOS_Guide.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="247">
+                <caret line="43" selection-start-line="43" selection-end-line="43" />
               </first_editor>
               <second_editor />
             </state>
@@ -54,28 +60,6 @@
             <state split_layout="SPLIT">
               <first_editor relative-caret-position="170">
                 <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="iOS_Guide.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/iOS_Guide.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor />
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="_navbar.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_navbar.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="68">
-                <caret line="4" selection-start-line="4" selection-end-line="4" />
               </first_editor>
               <second_editor />
             </state>
@@ -162,8 +146,8 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/releaseNote.md" />
-        <option value="$PROJECT_DIR$/_sidebar.md" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/_sidebar.md" />
         <option value="$PROJECT_DIR$/iOS_Guide.md" />
       </list>
     </option>
@@ -178,7 +162,7 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="306" />
+    <option name="x" value="113" />
     <option name="y" value="74" />
     <option name="width" value="1276" />
     <option name="height" value="771" />
@@ -219,8 +203,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/_images" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/_media" />
       <recent name="$USER_HOME$" />
     </key>
@@ -251,15 +235,15 @@
       <workItem from="1538477300269" duration="509000" />
       <workItem from="1538478043090" duration="16400000" />
       <workItem from="1539845318103" duration="3170000" />
-      <workItem from="1541932694609" duration="1199000" />
+      <workItem from="1541932694609" duration="2449000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22238000" />
+    <option name="totallyTimeSpent" value="23488000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="306" y="74" width="1276" height="771" extended-state="0" />
+    <frame x="113" y="74" width="1276" height="771" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19282869" />
@@ -376,7 +360,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/boardTool.md">
+    <entry file="file://$PROJECT_DIR$/iOS_Guide.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor />
@@ -479,19 +463,6 @@
     <entry file="file://$PROJECT_DIR$/_coverpage.md" />
     <entry file="file://$PROJECT_DIR$/cover.md" />
     <entry file="file://$PROJECT_DIR$/custom-navbar.md" />
-    <entry file="file://$PROJECT_DIR$/boardTool.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/iOS_quickstart.md">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="428">
@@ -613,21 +584,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/_sidebar.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="25" lean-forward="true" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="187">
-            <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -654,6 +610,36 @@
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
           <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_sidebar.md">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="25" lean-forward="true" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="391">
+            <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/iOS_Guide.md">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="247">
+            <caret line="43" selection-start-line="43" selection-end-line="43" />
+          </first_editor>
           <second_editor />
         </state>
       </provider>
