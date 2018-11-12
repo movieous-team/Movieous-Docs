@@ -21,5 +21,5 @@
 * 使用指南
 
   * [Android 使用指南](Android_Guide.md)
-  * [iOS 使用指南](boardTool.md)
+  * [iOS 使用指南](iOS_Guide.md)
 
