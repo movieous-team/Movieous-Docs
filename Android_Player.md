@@ -1,11 +1,3 @@
 # Android SDK
 
-##  Release Note
-
-## 如何安装
-
-## 快速开始
-
-## 主要概念
-
-## 使用指南
+我们提供适用于直播、点播、短视频等场景的免费播放器，如需使用，请[联系商务](mailto:sales@movieous.com)
