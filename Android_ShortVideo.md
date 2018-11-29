@@ -1,8 +1,9 @@
 # Android SDK
 
-##  Release Note
+## Release Note
 
 ### 2018-10-10 SDK 1.0.0 正式版发布
+
 - 1.0.0
   - 发布 ushortvideo-1.0.0.jar
   - 发布 libcore.so
@@ -16,6 +17,7 @@
   - 支持第三方美颜、滤镜
   - 自定义录制时长、码率、分辨率
   - 支持 1:1 录制
+
   - 断点录制
   - 回删录制片段
   - 抖音特效
@@ -23,55 +25,15 @@
   - 手势识别
   - 表情识别
   - 视频保存为 mp4 格式
-  - 支持 arm64, i386, x86_64 体系架构
+  - 支持主流架构（armv7、arm64、x86）
 
 ## 如何安装
 
+- 把 `release` 目录下的 `jar` 包拷贝到工程的 `libs` 目录下
+- 把 `release` 目录下的 `arm64-v8a、armeabi-v7a、x86` 目录拷贝到 `main` 下 的 `jniLibs` 目录下
+- 把 `release` 目录下的 `assets` 文件夹下的内容拷贝到 `assets` 目录下
+
 ## 快速开始
-
-### 阅读对象声明
-
-本文档为技术文档，需要阅读者：
-
-- 具备基本的 Android 开发能力
-- 计划接入 Movieous 短视频 SDK
-
-### 设计规则
-
-SDK 的接口设计，遵循了如下的原则：
-
-- 接口类均以 `U` 开头
-- 参数类均以 `UxxxParam` 命名
-- 回调类均以 `UxxxListener` 命名
-
-### 核心接口
-
-#### 接口类
-
-| 类名                      | 说明         | 备注              |
-| :------------------------ | ----------- | ---------------- |
-| UVideoRecord              | 负责视频拍摄录制      | 无 |
-| UVideoEdit                | 负责视频编辑处理      | 无 |
-
-#### 参数类
-
-| 类名                      | 说明        | 备注              |
-| :------------------------ | ----------- | ---------------- |
-| URecordParam              | 录制文件相关参数    | 无 |
-| UCameraParam              | Camera 采集参数    | 无 |
-| UMicrophoneParam          | 麦克风采集参数      | 无 |
-| UVideoEncodeParam         | 视频编码参数        | 无 |
-| UAudioEncodeParam         | 音频编码参数        | 无 |
-| UVideoEditParam           | 编辑文件相关参数     | 无 |
-
-#### 回调类
-
-| 类名                      | 说明        | 备注              |
-| :------------------------ | ----------- | ---------------- |
-| URecordStateListener      | 录制过程状态回调    | 无 |
-| USaveFileListener         | 文件保存过程信息回调    | 无 |
-| UVideoFrameListener       | 视频数据回调       | 纹理数据，支持第三方特效处理 |
-| UAudioFrameListener       | 音频数据回调       | PCM 数据，支持音频处理 |
 
 ### 开发准备
 
@@ -141,7 +103,7 @@ mVideoRecorder.setRecordStateListener(this);
 mVideoRecorder.setVideoFrameListener(this);
 ```
 
-#### 建录制参数类
+#### 创建录制参数类
 
 SDK 提供了丰富的录制参数，可以通过以下方式进行配置：
 
@@ -210,8 +172,6 @@ mVideoRecorder.stop();
 mVideoRecorder.mergeClips(this);
 ```
 
-<a id="6.3"></a>
-
 ### 视频编辑
 
 #### 创建参数类
@@ -269,9 +229,42 @@ mVideoEditor.save();
 
 ## 主要概念
 
+### 设计规则
 
+SDK 的接口设计，遵循了如下的原则：
 
+- 接口类均以 `U` 开头
+- 参数类均以 `UxxxParam` 命名
+- 回调类均以 `UxxxListener` 命名
 
+### 核心接口
+
+#### 接口类
+
+| 类名                      | 说明         | 备注              |
+| :------------------------ | ----------- | ---------------- |
+| UVideoRecord              | 负责视频拍摄录制      | 无 |
+| UVideoEdit                | 负责视频编辑处理      | 无 |
+
+#### 参数类
+
+| 类名                      | 说明        | 备注              |
+| :------------------------ | ----------- | ---------------- |
+| URecordParam              | 录制文件相关参数    | 无 |
+| UCameraParam              | Camera 采集参数    | 无 |
+| UMicrophoneParam          | 麦克风采集参数      | 无 |
+| UVideoEncodeParam         | 视频编码参数        | 无 |
+| UAudioEncodeParam         | 音频编码参数        | 无 |
+| UVideoEditParam           | 编辑文件相关参数     | 无 |
+
+#### 回调类
+
+| 类名                      | 说明        | 备注              |
+| :------------------------ | ----------- | ---------------- |
+| URecordStateListener      | 录制过程状态回调    | 无 |
+| USaveFileListener         | 文件保存过程信息回调    | 无 |
+| UVideoFrameListener       | 视频数据回调       | 纹理数据，支持第三方特效处理 |
+| UAudioFrameListener       | 音频数据回调       | PCM 数据，支持音频处理 |
 
 ## 使用指南
 
@@ -1155,7 +1148,6 @@ public interface UCameraFocusListener {
 ```
 
 ### 自定义对象
-
 
 #### UErrorCode
 
