@@ -3,13 +3,6 @@
 ##  Release Note
 
 ### 2018-10-10 SDK 1.0.0 Official version has been released
-- 1.0.0
-- Release ushortvideo-1.0.0.jar
-- Release libcore.so
-- Release libmuxer.so
-- Release libamix.so
-- Release libencoder.so
-- Release assets
 - Audio/Video Acquisition
 - Audio/Video encoding（H.264 + AAC）
 - Real-time beautificaion, Filter
