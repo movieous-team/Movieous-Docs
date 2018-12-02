@@ -2,7 +2,7 @@
 
 > Movieous 为客户提供完善的音视频解决方案。
 
-查看 [项目简介](introduction.md) 了解详情。
+<!-- 查看 [项目简介](introduction.md) 了解详情。 -->
 
 ### Movieous 官方网站
 
