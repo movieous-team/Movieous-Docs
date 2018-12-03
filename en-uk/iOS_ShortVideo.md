@@ -18,13 +18,13 @@
 - Video format save as Mp4
 - Support core system framework as  arm64, i386, x86_64 
 
-# Quict start
+## Quict start
 Dear developer, welcome to use the short video SDK from Movieous . This tutorial will guide you how to acheive integration of short video recording, editing and exporting functions in your iOS project. But first, we assume that you already know the underlying syntax of Objective-C.
 
-## Add dependency
+### Add dependency
 * First, the [iOS Short Video SDK Installation] (iOS_ShortVideo_Install.md) for your reference to introduce MovieousShortVideo to your project.
 
-## Introduce related header files
+### Introduce related header files
 Add the following statement to the page original source file where you need to integrate the short video SDK
 ```objectivec
 #import <MovieousShortVideo/MovieousShortVideo.h>
@@ -32,7 +32,7 @@ Add the following statement to the page original source file where you need to i
 
 Then, you can selectively integrate video recording, video editing or video export modules according to your requirements.
 
-## Video recording
+### Video recording
 - Add microphone and camera usage permission
 Open the project configuration page and add `Privacy - Camera Usage Description` and `Privacy - Microphone Usage ` description to the Info option.
 ![image](./images/authorization.png)
@@ -105,7 +105,7 @@ Open the project configuration page and add `Privacy - Camera Usage Description`
     }];
 ```
 After completing the current clip recording, you can return to the section `Start Recording Clips` to continue recording the next clip,All recorded clips will be merged sequentially into a video draft and saved in the `_recorder.draft` object, which can be passed to the editor for editing or passed to the exporter for directly export as a composite file.
-## Video editing
+### Video editing
 - Create the editor core control class
 ```objectivec
     //  The 'draft' here can be created by using the generated video clip from recording phase or by using existing audio and video resources (such as system albums or downloading from a remote location, etc.)
@@ -136,7 +136,7 @@ After completing the current clip recording, you can return to the section `Star
     };
 ```
 
-## Video export
+### Video export
 - Create the export core control object
 ```objectivec
     NSError *error;
@@ -168,10 +168,10 @@ After completing the current clip recording, you can return to the section `Star
     [_exporter startExport];
 ```
 
-# How to install
-## Cocoapods integration
+## How to install
+### Cocoapods integration
 
-### Install Cocoapods
+#### Install Cocoapods
 
 If you have installed Cocoapods, skip this step and go straight to the next step.
 If you have not heard of Cocoapods, we recommend reading[Dependency management of iOS programs with CocoaPods](https://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/ "Dependency management of iOS programs with CocoaPods)" to understand why we use Cocoapods. About the Taobao original source has no longer maintained, it has been switched to [Ruby-China RubyGems mirror](https://gems.ruby-china.org/).
@@ -190,7 +190,7 @@ sudo gem install cocoapods
 # Note：Since we don't need to use the official library, we don't execute the pod setup.
 ```
 
-### Integrate with Podfile
+#### Integrate with Podfile
 
 Installation through [CocoaPods] (https://cocoapods.org/) can maximum reduce the installation process.
 First, add the following pods to the Podfile file in the project root directory (we assume your project target name is `iOSDemo`):
@@ -204,38 +204,38 @@ end
 <span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)">Then execute command in the project root directory </span></span>`pod install`<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)"> </span></span>command, After the execution is successful, the SDK has integrated into the project.
 <em>If you have not fetched the pod warehouse for a long time, you may not be able to find out our repo. It is recommended to use </em><code><em>pod repo update</em></code><em> to update pod warehouse.</em>
 
-### SDK support situation:
+#### SDK support situation:
 
 Support iOS 8 and later.
-# Main concept
-## Draft (MSVDraft)
+## Main concept
+### Draft (MSVDraft)
 
 The draft is the core data structure of MovieousShortVideo, which represents a video project during the process of production. It saves all audio and video data sources, clips, volume adjustments, special effects, etc., all of the elements here construct the final video. The draft objects include output of the recording phase, input and output of editing phase, and the input of the export phase. All video editing operations of the developer are completed by the draft object.
 
-## Main Track Clip (MSVMainTrackClip)
+### Main Track Clip (MSVMainTrackClip)
 
 The main track segment is the basic element of the draft. The main audio and video of the draft is generated sequentially by the audio and video of the main track segment.The duration of the draft is the sum of the durations of all the main track segments.
-## Audio Clip (MSVAudioClip)
+### Audio Clip (MSVAudioClip)
 
 The Audio clip is the background audio added on the basis of the main track audio. It mixes with the specified volume and the main track and other overlapping parts of the audio to form the audio of the destination video.
-## Effects
+### Effects
 
 Special effects are superimposed on the main track of the draft, including filters, repeating effects, variable speed, etc.
 
-## Recorder (MSVRecorder)
+### Recorder (MSVRecorder)
 
 The recorder mainly provides video segmentation recording function, which generates multiple video segments to form the main track, and adds background music as an audio clip of the draft.
 
-## Editor (MSVEditor)
+### Editor (MSVEditor)
 
 The editor provides real-time preview of drafts and previews the effects of draft editing in real time.
 
-## Exporter (MSVVideoExporter)
+### Exporter (MSVVideoExporter)
 
 The exporter accepts draft objects as input, and exports target files in various formats.
 
-# Usage guideline
-## Draft object
+## Usage guideline
+### Draft object
 ```objectivec
 /**
  * @brief Video drafts, callers can generate drafts themselves or edit them arbitrarily with drafts，Then use MSVEditor to generate a preview of the draft in real time, or you can use MSVExporter to export the draft。
@@ -405,7 +405,7 @@ The exporter accepts draft objects as input, and exports target files in various
 @end
 ```
 
-## Main track segment
+### Main track segment
 ```objectivec
 /**
  * @brief Type of main track fragment
@@ -565,7 +565,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## Audio clip
+### Audio clip
 ```objectivec
 /**
  * @brief Audio clip
@@ -639,7 +639,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## Speed effects
+### Speed effects
 ```objectivec
 /**
  * @brief Speed effects
@@ -665,7 +665,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## Repeat effects
+### Repeat effects
 ```objectivec
 /**
  * @brief Repeat effects
@@ -691,7 +691,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## Image sticker effects
+### Image sticker effects
 ```objectivec
 /**
  * @brief Image sticker effects
@@ -726,7 +726,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## Color lookup table filter effects
+### Color lookup table filter effects
 ```objectivec
 /**
  * @brief Color lookup table filter effects
@@ -751,7 +751,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## The external filter effect
+### The external filter effect
 ```objectivec
 /**
  * @brief The external filter effect protocol, which should be followed by all of the external filters.
@@ -795,7 +795,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## Recorder
+### Recorder
 ```objectivec
 @class MSVRecorder;
 
@@ -1174,7 +1174,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## Audio configuration
+### Audio configuration
 ```objectivec
 /**
  * @brief Audio configuration class
@@ -1317,7 +1317,7 @@ MovieousCameraConfiguration
 @end
 ```
 
-## Editer
+### Editer
 ```objectivec
 extern NSString *kMSVEditorCurrentTimeUpdatedNotification;
 
@@ -1422,7 +1422,7 @@ extern NSString *kMSVEditorCurrentTimeUpdatedNotification;
 @end
 ```
 
-## Exporter
+### Exporter
 ```objectivec
 NS_ASSUME_NONNULL_BEGIN
 

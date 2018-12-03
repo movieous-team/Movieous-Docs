@@ -65,10 +65,10 @@ After  pushing stream  is completed, you can call the following method to end th
 ```
 [controller stopBroadcasting];
 ```
-# How to install
-## Cocoapods integration
+## How to install
+### Cocoapods integration
 
-### Install Cocoapods
+#### Install Cocoapods
 
 If you have installed Cocoapods, skip this step and go straight to the next step.
 If you have not heard of Cocoapods, we recommend reading[Dependency management of iOS programs with CocoaPods](https://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/ "Dependency management of iOS programs with CocoaPods)" to understand why we use Cocoapods. About the Taobao original source has no longer maintained, it has been switched to [Ruby-China RubyGems mirror](https://gems.ruby-china.org/).
@@ -87,7 +87,7 @@ sudo gem install cocoapods
 # Note：Since we don't need to use the official library, we don't execute the pod setup.
 ```
 
-### Integrate with Podfile
+#### Integrate with Podfile
 
 Installation through [CocoaPods] (https://cocoapods.org/) can maximum reduce the installation process.
 First, add the following pods to the Podfile file in the project root directory (we assume your project target name is `iOSDemo`):
@@ -101,11 +101,11 @@ end
 <span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)">Then execute command in the project root directory </span></span>`pod install`<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)"> </span></span>command, After the execution is successful, the SDK has integrated into the project.
 <em>If you have not fetched the pod warehouse for a long time, you may not be able to find out our repo. It is recommended to use </em><code><em>pod repo update</em></code><em> to update pod warehouse.</em>
 
-### SDK support situation:
+#### SDK support situation:
 
 Support iOS 8 and later.
-# Main concept
-# Usage guideline
+## Main concept
+## Usage guideline
 ### MLController
 ```objectivec
 @class MLController;
@@ -379,7 +379,7 @@ NSCopying
 @end
 ```
 
-### 视频参数累（MLVideoConfiguration）
+### MLVideoConfiguration
 ```objectivec
 @interface MLVideoConfiguration : NSObject
 <
