@@ -2,7 +2,7 @@
 
 ##  Release Note
 
-### v1.0.0(2018-12-3)
+### v1.0.1(2018-12-3)
 - support license authentication
 - fix preview error when media service is resetted because of frequent backgroud audio switch operations, etc.
 
