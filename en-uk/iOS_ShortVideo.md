@@ -2,7 +2,11 @@
 
 ##  Release Note
 
-### 2018-10-10 SDK 1.0.0 Official version has been released
+### v1.0.0(2018-12-3)
+- support license authentication
+- fix preview error when media service is resetted because of frequent backgroud audio switch operations, etc.
+
+### v1.0.0(2018-11-28)
 - Audio/Video Acquisition
 - Audio/Video encoding（H.264 + AAC）
 - Real-time beautificaion, Filter
