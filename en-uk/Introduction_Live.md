@@ -2,7 +2,7 @@
 
 ## Project Description
 
-MovieousLive is a one-step RTMP live stream SDK developed by [Movieous] (https://movieous.cn/), which provides a concise API with superior model and version compatibility and extreme performance. Rich features and numerous tripartite ecological support. Integrated MovieousLive enables developers to quickly generate an excellent mobile live app.
+MovieousLive is a one-step RTMP live stream SDK developed by [Movieous](https://movieous.cn/), which provides a concise API with superior model and version compatibility and extreme performance. Rich features and numerous tripartite ecological support. Integrated MovieousLive enables developers to quickly generate an excellent mobile live app.
 
 ## Usage scenarios
 
