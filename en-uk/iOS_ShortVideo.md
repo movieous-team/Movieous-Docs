@@ -173,44 +173,36 @@ After completing the current clip recording, you can return to the section `Star
 ```
 
 ## How to install
-### Cocoapods integration
+MovieousShortVideo supports multiple methods for installing the library in a project.
 
-#### Install Cocoapods
+### Installation with CocoaPods
 
-If you have installed Cocoapods, skip this step and go straight to the next step.
-If you have not heard of Cocoapods, we recommend reading[Dependency management of iOS programs with CocoaPods](https://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/ "Dependency management of iOS programs with CocoaPods)" to understand why we use Cocoapods. About the Taobao original source has no longer maintained, it has been switched to [Ruby-China RubyGems mirror](https://gems.ruby-china.org/).
-If you think that the above two articles are cumbersome, you can install them directly according to the brief steps we provide.
-* Brief steps: Open the terminal that comes with the mac, and then enter the following commands in sequence.
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like MovieousShortVideo in your projects. See the ["Getting Started" guide for more information](https://developer.movieous.cn/#/en-uk/iOS_ShortVideo?id=quict-start). You can install it with the following command:
 
 ```bash
-# Note：Ruby-China recommend 2.6.x, actually, ruby which comes with mac can be use either.
-gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
-gem sources -l
-# Note：The commands aboved should output the following,  >>> represents output here.
->>> https://gems.ruby-china.com
-# Note：Make sure that there is only gems.ruby-china.com
-
-sudo gem install cocoapods
-# Note：Since we don't need to use the official library, we don't execute the pod setup.
+$ gem install cocoapods
 ```
 
-#### Integrate with Podfile
+> CocoaPods 0.39.0+ is required to build MovieousShortVideo.
 
-Installation through [CocoaPods] (https://cocoapods.org/) can maximum reduce the installation process.
-First, add the following pods to the Podfile file in the project root directory (we assume your project target name is `iOSDemo`):
+#### Podfile
+
+To integrate MovieousShortVideo into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-target 'iOSDemo' do
-pod 'MovieousLive'
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+
+target 'TargetName' do
+pod 'MovieousShortVideo'
 end
 ```
 
-<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)">Then execute command in the project root directory </span></span>`pod install`<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)"> </span></span>command, After the execution is successful, the SDK has integrated into the project.
-<em>If you have not fetched the pod warehouse for a long time, you may not be able to find out our repo. It is recommended to use </em><code><em>pod repo update</em></code><em> to update pod warehouse.</em>
+Then, run the following command:
 
-#### SDK support situation:
-
-Support iOS 8 and later.
+```bash
+$ pod install
+```
 ## Main concept
 ### Draft (MSVDraft)
 
