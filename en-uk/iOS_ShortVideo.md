@@ -1215,7 +1215,7 @@ MovieousMicrophoneConfiguration
 - (BOOL)validateWithError:(NSError **)outError;
 
 @end
-```
+```
 
 ## Video configuration
 ```objectivec

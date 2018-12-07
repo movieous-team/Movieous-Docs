@@ -1222,7 +1222,7 @@ MovieousMicrophoneConfiguration
 - (BOOL)validateWithError:(NSError **)outError;
 
 @end
-```
+```
 
 ## 视频配置
 ```objectivec
