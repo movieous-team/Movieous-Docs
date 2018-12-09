@@ -2,6 +2,12 @@
 
 ##  Release Note
 
+### v1.0.2(2018-12-8)
+- add internal capturing pause and resume interface
+
+### v1.0.1(2018-12-6)
+- fix external video processing not applied in preview bug
+
 ### v1.0.0(2018-11-28)
 - support standard RTMP live straming
 - support external face beauty
@@ -213,6 +219,26 @@ $ pod install
  * @param completion Block called when start completed
  */
 - (void)startCapturingWithCompletion:(void (^)(AVAuthorizationStatus cameraAuthorizationStatus, AVAuthorizationStatus microphoneAuthorizationStatus, NSError *error))completion;
+
+/**
+ * @brief Pause audio capturing
+ */
+- (void)pauseAudioCapturing;
+
+/**
+ * @brief Resume audio capturing
+ */
+- (void)resumeAudioCapturing;
+
+/**
+ * @brief Pause video capturing
+ */
+- (void)pauseVideoCapturing;
+
+/**
+ * @brief Resume video capturing
+ */
+- (void)resumeVideoCapturing;
 
 /**
  * @brief Start broadcasting to the server
