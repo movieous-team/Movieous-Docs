@@ -2,6 +2,12 @@
 
 ##  Release Note
 
+### v1.0.2(2018-12-8)
+- 添加内部采集的暂停和恢复的接口
+
+### v1.0.1(2018-12-6)
+- 修复外部视频处理无法在预览视图生效的问题
+
 ### v1.0.0(2018-11-28)
 - 支持标准 RTMP 推流
 - 支持外置美颜
@@ -243,6 +249,26 @@ controller.preview.frame = self.view.bounds;
  * @param completion 闭包会在操作完成后被调用
  */
 - (void)startCapturingWithCompletion:(void (^)(AVAuthorizationStatus cameraAuthorizationStatus, AVAuthorizationStatus microphoneAuthorizationStatus, NSError *error))completion;
+
+/**
+ * @brief 暂停音频采集
+ */
+- (void)pauseAudioCapturing;
+
+/**
+ * @brief 恢复音频采集
+ */
+- (void)resumeAudioCapturing;
+
+/**
+ * @brief 暂停视频采集
+ */
+- (void)pauseVideoCapturing;
+
+/**
+ * @brief 恢复视频采集
+ */
+- (void)resumeVideoCapturing;
 
 /**
  * @brief 开始推流

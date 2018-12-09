@@ -1,7 +1,10 @@
 # iOS SDK
 
 ##  Release Note
-  
+
+### v1.0.1(2018-12-8)
+- fix error when autoreconnect is triggered
+
 ### v1.0.0(2018-11-28)
 - support common Live、VOD format play
 

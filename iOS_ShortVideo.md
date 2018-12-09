@@ -18,20 +18,20 @@
 - 视频保存为 mp4 格式
 - 支持 arm64, x86_64 体系架构
 
-# 快速开始
+## 快速开始
 Hi, 亲爱的开发者，欢迎使用 Movieous 短视频 SDK。本教程将引导你在自己的 iOS 工程中集成短视频录制，编辑及导出功能。不过首先，我们假定你已经了解 Objective-C 的基础语法。
 
-## 添加依赖
+### 添加依赖
 * 首先，你需要参考 [iOS 短视频 SDK 安装](iOS_ShortVideo_Install.md) 将 MovieousShortVideo 引入你的工程
 
-## 引入相关头文件
+### 引入相关头文件
 在您需要集成短视频 SDK 的页面源文件中添加如下语句
 ```objectivec
 #import <MovieousShortVideo/MovieousShortVideo.h>
 ```
 
 下面，你可以根据自己的需求，选择性地集成视频录制、视频编辑或视频导出模块
-## 视频录制
+### 视频录制
 - 添加麦克风和摄像头使用权限
 打开项目配置页面，Info 选项添加 `Privacy - Camera Usage Description` 和 `Privacy - Microphone Usage Description` 描述
 ![image](./images/authorization.png)
@@ -105,7 +105,7 @@ Hi, 亲爱的开发者，欢迎使用 Movieous 短视频 SDK。本教程将引�
 ```
 完成当前片段录制之后还可以回到`开始录制片段`的步骤继续进行下一个片段的录制，所有录制好的片段将会顺序拼接为一个视频草稿保存在 `_recorder.draft` 对象中，可传入编辑器进行编辑或传入导出器直接导出为一个合成后的文件
 
-## 视频编辑
+### 视频编辑
 - 创建编辑器核心控制类
 ```objectivec
     // 此处的 draft 可以使用在录制阶段生成的也可以使用已有音视频资源（例如系统相册或从远端下载等）创建
@@ -136,7 +136,7 @@ Hi, 亲爱的开发者，欢迎使用 Movieous 短视频 SDK。本教程将引�
     };
 ```
 
-## 视频导出
+### 视频导出
 - 创建导出核心控制对象
 ```objectivec
     NSError *error;
@@ -168,10 +168,10 @@ Hi, 亲爱的开发者，欢迎使用 Movieous 短视频 SDK。本教程将引�
     [_exporter startExport];
 ```
 
-# 如何安装
-## Cocoapods 集成
+## 如何安装
+### Cocoapods 集成
 
-### 安装 Cocoapods
+#### 安装 Cocoapods
 
 如果您已安装 Cocoapods，则请直接跳过该步骤，直接进入下一步骤。
 如果你未接触过 Cocoapods ，我们推荐您阅读 [唐巧的博客-用CocoaPods做iOS程序的依赖管理](https://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/ "用CocoaPods做iOS程序的依赖管理") ，了解我们为何使用 Cocoapods 。另外文章中提及的淘宝源已经不再维护，需要使用 [Ruby-China RubyGems 镜像](https://gems.ruby-china.org/)替换。
@@ -191,7 +191,7 @@ sudo gem install cocoapods
 # 注释：由于我们不需要使用官方库，所以可以不执行 pod setup。
 ```
 
-### 使用Podfile集成
+#### 使用Podfile集成
 
 通过 [CocoaPods](https://cocoapods.org/) 安装可以最大化地简化安装过程。
 首先，在项目根目录下的 Podfile 文件中添加以下 pods（我们假设您的项目 target 名称为 `iOSDemo`）：
@@ -205,41 +205,376 @@ end
 <span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)">然后在项目根目录执行 </span></span>`pod install`<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)"> </span></span>命令，执行成功后，SDK 就集成到项目中了。
 <em>如果长时间没有拉取过pod 仓库，可能出现无法找到我们的repo的情况，此时建议先使用 </em><code><em>pod repo update</em></code><em> 更新pod仓库。</em>
 
-### SDK 支持情况：
+#### SDK 支持情况：
 
 支持 iOS8 及其以上版本。
 
-# 主要概念
-## 草稿(MSVDraft)
+## 主要概念
+### 草稿(MSVDraft)
 
 草稿是 MovieousShortVideo 的核心数据结构，它代表一个正在制作过程当中的视频项目，它保存了所有的音视频数据源，剪辑，音量调整，特效等等构成最终视频的所有元素，录制阶段的输出、编辑阶段的输入及输出、导出阶段的输入均为草稿对象，开发者所有的视频编辑操作都通过草稿对象来完成。
 
-## 主轨片段(MSVMainTrackClip)
+### 主轨片段(MSVMainTrackClip)
 
 主轨片段是构成草稿的基本要素，草稿的主音视频由主轨片段的音视频顺序拼接产生，草稿的时长为所有主轨片段的时长总和。
 
-## 音效片段(MSVAudioClip)
+### 音效片段(MSVAudioClip)
 
 音效片段是在主轨音频的基础上增加的背景音频，它按照指定的音量和主轨及其他有重合部分的音频进行混合形成目的视频的音频。
 
-## 特效
+### 特效
 
 特效是在草稿的主轨的基础之上叠加的包括滤镜，反复，变速等在内多种效果。
 
-## 录制器(MSVRecorder)
+### 录制器(MSVRecorder)
 
 录制器主要提供视频分段录制功能，产生多个视频片段构成主轨，添加的背景音乐作为草稿的音效片段。
 
-## 编辑器(MSVEditor)
+### 编辑器(MSVEditor)
 
 编辑器提供对草稿的实时预览功能，能够实时预览草稿编辑的效果。
 
-## 导出器(MSVVideoExporter)
+### 导出器(MSVVideoExporter)
 
 导出器接受草稿对象作为输入，导出为各种格式的目标文件
 
-# 使用指南
-## 草稿对象
+## 使用指南
+### 类型定义(MSVTypeDefines)
+```objectivec
+/**
+ * 视频输入源类型
+ */
+typedef NS_ENUM(NSInteger, MSVVideoSource) {
+    /**
+     * @brief 不录制视频，请不要同时使 video source 和 audio source 都为 none
+     */
+    MSVVideoSourceNone,
+    /**
+     * @brief 摄像头输入源
+     */
+    MSVVideoSourceCamera,
+    /**
+     * @brief UIView 输入源，当使用此输入源时请在 MSVRecorder 的 `startRecordingWithClipConfiguration:error:` 中指定 viewForRecording 对象
+     */
+    MSVVideoSourceUIView,
+    /**
+     * @brief 外部视频源
+     * @warning 使用此输入源时请使用 `writeVideoData:error:` 方法输入视频数据，如果选择外部数据源又不导入视频会导致未知问题
+     */
+    MSVVideoSourceExtern,
+};
+
+/**
+ * @brief 音频输入源类型
+ */
+typedef NS_ENUM(NSInteger, MSVAudioSource) {
+    /**
+    * @brief 不录制音频，请不要同时使 video source 和 audio source 都为 none
+     */
+    MSVAudioSourceNone,
+    /**
+     * @brief 麦克风输入源
+     */
+    MSVAudioSourceMicrophone,
+    /**
+     * @brief 外部输入源
+     * @warning 使用此输入源时请使用 `writeAudioData:error:` 方法输入音频数据，如果选择外部数据源又不导入视频会导致未知问题
+     */
+    MSVAudioSourceExtern,
+};
+
+/**
+ * @brief 录制进入后台时采取的操作类型
+ */
+typedef NS_ENUM(NSInteger, MSVBackgroundAction) {
+    /**
+     * @brief 退出到后台之后不做任何操作，调用者需要负责进行正确的操作，一般是取消或结束当前片段的录制
+     */
+    MSVBackgroundActionContinue,
+    /**
+     * @brief 退出到后台之后结束并保存当前录制的片段
+     */
+    MSVBackgroundActionFinish,
+};
+
+/**
+ * @brief 预览视图的方向
+ */
+typedef NS_ENUM(NSInteger, MSVPreviewOrientation) {
+    /**
+     * @brief 正立方向
+     */
+    MSVPreviewOrientationPortrait = 0,
+    /**
+     * @brief 倒立方向
+     */
+    MSVPreviewOrientationPortraitUpsideDown = 1,
+    /**
+     * @brief 横置并且 Home 键位于右侧
+     */
+    MSVPreviewOrientationLandscapeRight = 2,
+    /**
+     * @brief 横置并且 Home 键位于左侧
+     */
+    MSVPreviewOrientationLandscapeLeft = 3,
+};
+
+#pragma mark - Audio SampleRate
+
+/**
+ * @brief 音频编码采样率
+ */
+typedef NS_ENUM(NSUInteger, MSVAudioSampleRate) {
+    /**
+     * @brief 48000Hz 音频编码采样率
+     */
+    MSVAudioSampleRate_48000Hz = 48000,
+    /**
+     * @brief 44100Hz 音频编码采样率
+     */
+    MSVAudioSampleRate_44100Hz = 44100,
+    /**
+     * @brief 22050Hz 音频编码采样率
+     */
+    MSVAudioSampleRate_22050Hz = 22050,
+    /**
+     * @brief 11025Hz 音频编码采样率
+     */
+    MSVAudioSampleRate_11025Hz = 11025,
+};
+
+#pragma mark - Audio BitRate
+
+/**
+ * @brief 音频编码码率
+ */
+
+typedef NS_ENUM(NSInteger, MSVAudioBitRate) {
+    /**
+     * @brief 64Kbps 音频码率
+     */
+    MSVAudioBitRate_64Kbps = 64000,
+    /**
+     * @brief 96Kbps 音频码率
+     */
+    MSVAudioBitRate_96Kbps = 96000,
+    /**
+     * @brief 128Kbps 音频码率
+     */
+    MSVAudioBitRate_128Kbps = 128000,
+};
+
+#pragma mark - Video File Type
+
+/**
+ * @brief 录制目标文件类型
+ */
+typedef NS_ENUM(NSUInteger, MSVFileType) {
+    /**
+     * @brief mp4 文件，一般以 .mp4 为后缀
+     */
+    MSVFileTypeMPEG4,
+    /**
+     * @brief QuickTime Movie 文件，一般以 .mov 为后缀
+     */
+    MSVFileTypeQuickTimeMovie, // .mov
+    /**
+     * @brief m4a 文件，一般以 .m4a 为后缀
+     */
+    MSVFileTypeM4A, // .m4a
+};
+
+/**
+ * @brief 视频转场类型
+ */
+typedef NS_ENUM(NSInteger, MSVVideoTransitionType) {
+    /**
+     * @brief 溶解转场效果
+     */
+    MSVVideoTransitionTypeDissolve,
+    /**
+     * @brief 向右扫入转场效果
+     */
+    MSVVideoTransitionTypeWipeRight,
+    /**
+     * @brief 向左扫入转场效果
+     */
+    MSVVideoTransitionTypeWipeLeft,
+    /**
+     * @brief 向上扫入转场效果
+     */
+    MSVVideoTransitionTypeWipeUp,
+    /**
+     * @brief 向下扫入转场效果
+     */
+    MSVVideoTransitionTypeWipeDown,
+    /**
+     * @brief 向右划入转场效果
+     */
+    MSVVideoTransitionTypeSlideRight,
+    /**
+     * @brief 向左划入转场效果
+     */
+    MSVVideoTransitionTypeSlideLeft,
+    /**
+     * @brief 向上划入转场效果
+     */
+    MSVVideoTransitionTypeSlideUp,
+    /**
+     * @brief 向下划入转场效果
+     */
+    MSVVideoTransitionTypeSlideDown,
+    /**
+     * @brief 渐隐渐现转场效果
+     */
+    MSVVideoTransitionTypeFade
+};
+```
+
+### 颜色查找表滤镜特效(MSVLUTFilterEffect)
+```objectivec
+/**
+ * @brief 颜色查找表滤镜特效
+ */
+@interface MSVLUTFilterEffect : NSObject
+
+/**
+ * @brief 用户自定义 ID 字段，业务使用用于区分对象
+ */
+@property (nonatomic, strong) NSString *ID;
+
+/**
+ * @brief LUT(look up table) 滤镜的图片文件地址，只支持本地文件
+ */
+@property (nonatomic, strong, readonly) NSURL *URL;
+
+/**
+ * @brief 在主轨当中应用颜色查找表滤镜特效的时间区间
+ */
+@property (nonatomic, assign) MovieousTimeRange timeRangeAtMainTrack;
+
+@end
+```
+
+### 录制片段的配置类(MSVClipConfiguration)
+```objectivec
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ * 录制片段的配置类，用于进行当前录制片段的配置
+ */
+@interface MSVClipConfiguration : NSObject
+
+/**
+ * @brief 片段录制的文件地址，默认为自动生成的地址
+ */
+@property (nonatomic, strong) NSURL *URL;
+
+/**
+ * @brief 片段录制的媒体文件类型，默认为 MSVFileTypeMPEG4
+ */
+@property (nonatomic, assign) MSVFileType fileType;
+
+/**
+ * @brief 将要录制的片段的速度，默认值为：1.0
+ * 一般来说可以进行如下配置：
+ * 极快：2.0
+ * 快：1.5
+ * 正常：1.0
+ * 慢：0.75
+ * 极慢：0.5
+ */
+@property (nonatomic, assign) CGFloat speed;
+
+/**
+ * @brief 所录制的片段的原声音量，默认为 1.0
+ */
+@property (nonatomic, assign) float volume;
+
+/**
+ * @brief 用于录制的 view，当且仅当 videoConfiguration.source = MSVVideoSourceUIView 时有效
+ * 默认为 nil
+ */
+@property (nonatomic, strong) UIView *viewForRecording;
+
+/**
+ * @brief 生成默认配置对象
+ * @return 返回生成的默认配置对象
+ */
++ (instancetype)defaultConfiguration;
+
+@end
+
+NS_ASSUME_NONNULL_END
+```
+
+### 背景音效的配置类(MSVBackgroundAudioConfiguration)
+```objectivec
+/**
+ * @brief 背景音效的配置类
+ */
+@interface MSVBackgroundAudioConfiguration : NSObject
+
+/**
+ * @brief 背景音效源文件路径
+ * @warning 当前仅支持本地文件
+ */
+@property (nonatomic, strong, readonly) NSURL *URL;
+
+/**
+ * @brief URL 指向的音频当中截取使用的区间，默认全部使用
+ */
+@property (nonatomic, assign) MovieousTimeRange timeRange;
+
+/**
+ * @brief 背景音效的音量，默认为音频文件中自带的 preferredVolume
+ */
+@property (nonatomic, assign) float volume;
+
+/**
+ * @brief 是否循环播放背景音效直到录制结束，默认为 NO
+ */
+@property (nonatomic, assign) BOOL loop;
+
+/**
+ * @brief 初始化背景音效对象
+ * @param URL 背景音效源文件路径，当前仅支持本地文件
+ * @param outError 如发生错误，返回具体的错误对象
+ * @return 生成成功返回初始化的对象，发生错误返回 nil
+ */
++ (instancetype)backgroundAudioConfigurationWithURL:(NSURL *)URL error:(NSError **)outError;
+
+@end
+```
+
+### 媒体片段协议(MSVClip)
+```objectivec
+/**
+ * @brief 媒体片段
+ */
+@protocol MSVClip <NSObject>
+
+/**
+ * @brief 媒体片段的 URL，只支持本地文件
+ */
+@property (nonatomic, strong, readonly) NSURL *URL;
+
+/**
+ * @brief 媒体片段在主轨中的时间区间
+ */
+@property (nonatomic, assign) MovieousTimeRange timeRangeAtMainTrack;
+
+/**
+ * @brief 验证草稿是否有效
+ * @param outError 如果发生错误，返回发生的错误
+ * @return 有效返回 YES，无效返回 NO
+ */
+- (BOOL)validateWithError:(NSError **)outError;
+
+@end
+```
+
+### 草稿对象
 ```objectivec
 /**
  * @brief 视频草稿，调用者可以自行生成草稿或直接草稿进行任意编辑，然后使用 MSVEditor 实时生成草稿的预览，也可以使用 MSVExporter 对草稿进行导出
@@ -409,7 +744,7 @@ end
 @end
 ```
 
-## 主轨片段
+### 主轨片段
 ```objectivec
 /**
  * @brief 主轨片段的类型
@@ -485,9 +820,19 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
  */
 @property (nonatomic, assign) float volume;
 
-
+/**
+ * @brief 开始应用倒放效果到该片段
+ * @discussion 倒放操作在首次应用时需要耗费一定的时间，传入 progressHandler 以获取操作的进度，传入 completionHandler 以获取操作的结果。首次倒放操作完成之后如果再次应用倒放效果将会瞬间完成，无需再次等待。
+ * @param reverse 是否应用倒放效果
+ * @param progressHandler 操作进度回调，参数 progress 为操作进度
+ * @param completionHandler 操作结果回调，如果发生错误，参数 error 返回发生的错误，否则 error 为 nil。
+ */
 - (void)setReverse:(BOOL)reverse progressHandler:(void(^)(float progress))progressHandler completionHandler:(void(^)(NSError *error))completionHandler;
 
+/**
+ * @brief 是否取消正在进行的倒放处理
+ * @warning 此处的取消倒放并非将已经倒放的视频恢复正常播放，如果需要清除已经应用成功的倒放效果请调用 -setReverse:progressHandler:completionHandler: 并传入参数 NO。
+ */
 - (void)cancelReverse;
 
 /**
@@ -565,10 +910,15 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
  */
 - (BOOL)validateWithError:(NSError **)outError;
 
+/**
+ * @brief 刷新内部的 Asset，在系统收到 `AVAudioSessionMediaServicesWereResetNotification` 后需要调用
+ */
+- (void)refreshAsset;
+
 @end
 ```
 
-## 音效片段
+### 音效片段
 ```objectivec
 /**
  * @brief 音频片段
@@ -639,10 +989,15 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
  */
 - (BOOL)validateWithError:(NSError **)outError;
 
+/**
+ * @brief 刷新内部的 Asset，在系统收到 `AVAudioSessionMediaServicesWereResetNotification` 后需要调用
+ */
+- (void)refreshAsset;
+
 @end
 ```
 
-## 速度特效
+### 速度特效
 ```objectivec
 /**
  * @brief 速度特效
@@ -668,7 +1023,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## 反复特效
+### 反复特效
 ```objectivec
 /**
  * @brief 反复特效
@@ -694,7 +1049,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## 图片贴纸特效
+### 图片贴纸特效
 ```objectivec
 /**
  * @brief 图片贴纸效果
@@ -729,7 +1084,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## 颜色查找表滤镜特效
+### 颜色查找表滤镜特效
 ```objectivec
 /**
  * @brief 颜色查找表滤镜特效
@@ -754,7 +1109,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## 外部滤镜特效
+### 外部滤镜特效
 ```objectivec
 /**
  * @brief 外部滤镜效果协议，所有外部滤镜都需要遵守此协议
@@ -798,7 +1153,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## 录制器
+### 录制器
 ```objectivec
 @class MSVRecorder;
 
@@ -1177,7 +1532,7 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
 @end
 ```
 
-## 音频配置
+### 音频配置
 ```objectivec
 /**
  * @brief 音频录制配置类
@@ -1224,7 +1579,7 @@ MovieousMicrophoneConfiguration
 @end
 ```
 
-## 视频配置
+### 视频配置
 ```objectivec
 /**
  * @brief 视频录制配置类
@@ -1320,7 +1675,7 @@ MovieousCameraConfiguration
 @end
 ```
 
-## 编辑器
+### 编辑器
 ```objectivec
 extern NSString *kMSVEditorCurrentTimeUpdatedNotification;
 
@@ -1425,7 +1780,7 @@ extern NSString *kMSVEditorCurrentTimeUpdatedNotification;
 @end
 ```
 
-## 导出器
+### 导出器
 ```objectivec
 NS_ASSUME_NONNULL_BEGIN
 
