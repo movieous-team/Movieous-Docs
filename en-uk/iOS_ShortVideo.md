@@ -231,6 +231,337 @@ The editor provides real-time preview of drafts and previews the effects of draf
 The exporter accepts draft objects as input, and exports target files in various formats.
 
 ## Usage guideline
+### Type define(MSVTypeDefines)
+```objectivec
+/**
+ * Video input souce type
+ */
+typedef NS_ENUM(NSInteger, MSVVideoSource) {
+    /**
+     * @brief No video，please don't set both video source and audio source to none.
+     */
+    MSVVideoSourceNone,
+    /**
+     * @brief Camera input source
+     */
+    MSVVideoSourceCamera,
+    /**
+     * @brief UIView input source, when you use this input source please specify viewForRecording property in `startRecordingWithClipConfiguration:error:` method
+     */
+    MSVVideoSourceUIView,
+    /**
+     * @brief External video source
+     * @warning When you use this input source, please use `writeVideoData:error:` to write video data, if you choose external video source but don't input video data, unknown error may come out
+     */
+    MSVVideoSourceExtern,
+};
+
+/**
+ * @brief Audio input source
+ */
+typedef NS_ENUM(NSInteger, MSVAudioSource) {
+    /**
+     * @brief No audio，please don't set both video source and audio source to none.
+     */
+    MSVAudioSourceNone,
+    /**
+     * @brief Microphone input source.
+     */
+    MSVAudioSourceMicrophone,
+    /**
+     * @brief External input source
+     * @warning You must use `writeAudioData:error:` method to input audio data when use this input source, if you choose external audio source but don't input audio data, unknown error may come out
+     */
+    MSVAudioSourceExtern,
+};
+
+/**
+ * @brief Action to take when enter background
+ */
+typedef NS_ENUM(NSInteger, MSVBackgroundAction) {
+    /**
+     * @brief Take no action, caller is responsible to take right actions such as cancel or finish recording current clip
+     */
+    MSVBackgroundActionContinue,
+    /**
+     * @brief Finish and save clip being recording when enter background
+     */
+    MSVBackgroundActionFinish,
+};
+
+/**
+ * @brief Orientation of preview
+ */
+typedef NS_ENUM(NSInteger, MSVPreviewOrientation) {
+    /**
+     * @brief Portrait orientation
+     */
+    MSVPreviewOrientationPortrait = 0,
+    /**
+     * @brief Upside down orientation
+     */
+    MSVPreviewOrientationPortraitUpsideDown = 1,
+    /**
+     * @brief LandscapeRight orientation
+     */
+    MSVPreviewOrientationLandscapeRight = 2,
+    /**
+     * @brief LandscapeLeft orientation
+     */
+    MSVPreviewOrientationLandscapeLeft = 3,
+};
+
+#pragma mark - Audio SampleRate
+
+/**
+ * @brief Audio sample rate
+ */
+typedef NS_ENUM(NSUInteger, MSVAudioSampleRate) {
+    /**
+     * @brief 48000Hz sample rate
+     */
+    MSVAudioSampleRate_48000Hz = 48000,
+    /**
+     * @brief 44100Hz sample rate
+     */
+    MSVAudioSampleRate_44100Hz = 44100,
+    /**
+     * @brief 22050Hz sample rate
+     */
+    MSVAudioSampleRate_22050Hz = 22050,
+    /**
+     * @brief 11025Hz sample rate
+     */
+    MSVAudioSampleRate_11025Hz = 11025,
+};
+
+#pragma mark - Audio BitRate
+
+/**
+ * @brief Audio bitrate
+ */
+
+typedef NS_ENUM(NSInteger, MSVAudioBitRate) {
+    /**
+     * @brief 64Kbps bitrate
+     */
+    MSVAudioBitRate_64Kbps = 64000,
+    /**
+     * @brief 96Kbps bitrate
+     */
+    MSVAudioBitRate_96Kbps = 96000,
+    /**
+     * @brief 128Kbps bitrate
+     */
+    MSVAudioBitRate_128Kbps = 128000,
+};
+
+#pragma mark - Video File Type
+
+/**
+ * @brief Destination file type for recording
+ */
+typedef NS_ENUM(NSUInteger, MSVFileType) {
+    /**
+     * @brief mp4 file type，suffixed .mp4
+     */
+    MSVFileTypeMPEG4,
+    /**
+     * @brief QuickTime Movie file type，suffixed .mov
+     */
+    MSVFileTypeQuickTimeMovie, // .mov
+    /**
+     * @brief m4a file type，suffixed .m4a
+     */
+    MSVFileTypeM4A, // .m4a
+};
+
+/**
+ * @brief Video transition type
+ */
+typedef NS_ENUM(NSInteger, MSVVideoTransitionType) {
+    /**
+     * @brief Dissolve transition type
+     */
+    MSVVideoTransitionTypeDissolve,
+    /**
+     * @brief Wipe right transition type
+     */
+    MSVVideoTransitionTypeWipeRight,
+    /**
+     * @brief Wipe left transition type
+     */
+    MSVVideoTransitionTypeWipeLeft,
+    /**
+     * @brief Wipe up transition type
+     */
+    MSVVideoTransitionTypeWipeUp,
+    /**
+     * @brief Wipe down transition type
+     */
+    MSVVideoTransitionTypeWipeDown,
+    /**
+     * @brief Slide right transition type
+     */
+    MSVVideoTransitionTypeSlideRight,
+    /**
+     * @brief Slide left transition type
+     */
+    MSVVideoTransitionTypeSlideLeft,
+    /**
+     * @brief Slide up transition type
+     */
+    MSVVideoTransitionTypeSlideUp,
+    /**
+     * @brief Slide down transition type
+     */
+    MSVVideoTransitionTypeSlideDown,
+    /**
+     * @brief Fade transition type
+     */
+    MSVVideoTransitionTypeFade
+};
+```
+
+### Color lookup table filter effect(MSVLUTFilterEffect)
+```objectivec
+/**
+ * @brief Color lookup table filter effect class
+ */
+@interface MSVLUTFilterEffect : NSObject
+
+/**
+ * @brief User defined ID field, used to store any information you want
+ */
+@property (nonatomic, strong) NSString *ID;
+
+/**
+ * @brief LUT(look up table) file location, only local file is supported
+ */
+@property (nonatomic, strong, readonly) NSURL *URL;
+
+/**
+ * @brief Time range on main track in draft to use this LUT effect
+ */
+@property (nonatomic, assign) MovieousTimeRange timeRangeAtMainTrack;
+
+@end
+```
+
+### Recording clip configuration object(MSVClipConfiguration)
+```objectivec
+/**
+ * Recorder clip configuration class, used to configure current recording clip
+ */
+@interface MSVClipConfiguration : NSObject
+
+/**
+ * @brief Clip file URL, default to auto generated URL
+ */
+@property (nonatomic, strong) NSURL *URL;
+
+/**
+ * @brief Media file type of the clip to be recorded, default to MSVFileTypeMPEG4
+ */
+@property (nonatomic, assign) MSVFileType fileType;
+
+/**
+ * @brief Clip speed of the clip to be recorded, default to 1.0
+ * Recommend configurations:
+ * very fast：2.0
+ * fast：1.5
+ * normal：1.0
+ * slow：0.75
+ * very slow：0.5
+ */
+@property (nonatomic, assign) CGFloat speed;
+
+/**
+ * @brief Original sound volume of the clip to be recorded, default to 1.0
+ */
+@property (nonatomic, assign) float volume;
+
+/**
+ * @brief View used for recording, only valid when videoConfiguration.source = MSVVideoSourceUIView
+ * Default to nil
+ */
+@property (nonatomic, strong) UIView *viewForRecording;
+
+/**
+ * @brief Create a default configuration instance
+ * @return Created instance
+ */
++ (instancetype)defaultConfiguration;
+
+@end
+```
+
+### Background audio configuration class(MSVBackgroundAudioConfiguration)
+```objectivec
+/**
+ * @brief Background audio configuration class
+ */
+@interface MSVBackgroundAudioConfiguration : NSObject
+
+/**
+ * @brief Background audio source file URL
+ * @warning Only local file URL is supported
+ */
+@property (nonatomic, strong, readonly) NSURL *URL;
+
+/**
+ * @brief The time range to use of the audio source
+ */
+@property (nonatomic, assign) MovieousTimeRange timeRange;
+
+/**
+ * @brief Volume of background audio, default to the preferredVolume in the audio file
+ */
+@property (nonatomic, assign) float volume;
+
+/**
+ * @brief NO Loop audio play untill recording finishes
+ */
+@property (nonatomic, assign) BOOL loop;
+
+/**
+ * @brief Create a new MSVBackgroundAudioConfiguration instance
+ * @param URL Audio source file URL, only local file is supported
+ * @param outError Return error if any
+ * @return Created instance if success or else nil
+ */
++ (instancetype)backgroundAudioConfigurationWithURL:(NSURL *)URL error:(NSError **)outError;
+
+@end
+```
+
+### Media clip protocol(MSVClip)
+```objectivec
+/**
+ * @brief Media clip protocol
+ */
+@protocol MSVClip <NSObject>
+
+/**
+ * @brief Media clip URL, only local file is supported
+ */
+@property (nonatomic, strong, readonly) NSURL *URL;
+
+/**
+ * @brief Time range on main track in draft
+ */
+@property (nonatomic, assign) MovieousTimeRange timeRangeAtMainTrack;
+
+/**
+ * @brief Check if the clip is valid
+ * @param outError If an error occurs, return the error that occurred
+ * @return Return YES if valid, or else NO
+ */
+- (BOOL)validateWithError:(NSError **)outError;
+
+@end
+```
+
 ### Draft object
 ```objectivec
 /**
@@ -477,9 +808,19 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
  */
 @property (nonatomic, assign) float volume;
 
-
+/**
+ * @brief Begin apply reverse effect to this clip
+ * @discussion Reverse operation may take some time for the first time, you can psss `progressHandler` to get operation progress, pass `completionHandler` to get operation result. After reverse operation has completed for the first time, apply again will take effect immediately.
+ * @param reverse Reverse or not
+ * @param progressHandler Operation progress callback, parameter `progress` is operation progress ranges from 0 ~ 1
+ * @param completionHandler error 为 nil。Operation result callback, if error comes out, error object will convey the error.
+ */
 - (void)setReverse:(BOOL)reverse progressHandler:(void(^)(float progress))progressHandler completionHandler:(void(^)(NSError *error))completionHandler;
 
+/**
+ * @brief Cancel the running reverse process
+ * @warning Cancel reverse operation there is not recover previoud reversed video, if you want to clear applied reverse effect, call `-setReverse:progressHandler:completionHandler:` and pass NO to parameter `reverse`
+ */
 - (void)cancelReverse;
 
 /**
@@ -558,6 +899,11 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
  */
 - (BOOL)validateWithError:(NSError **)outError;
 
+/**
+ * @brief Refresh inner Asset objects，need to be called when received `AVAudioSessionMediaServicesWereResetNotification` notification
+ */
+- (void)refreshAsset;
+
 @end
 ```
 
@@ -631,6 +977,11 @@ typedef NS_ENUM(NSInteger, MSVMainTrackClipType) {
  * @return Valid operation return YES, invalid operation return NO
  */
 - (BOOL)validateWithError:(NSError **)outError;
+
+/**
+ * @brief Refresh inner Asset objects，need to be called when received `AVAudioSessionMediaServicesWereResetNotification` notification
+ */
+- (void)refreshAsset;
 
 @end
 ```
@@ -1215,9 +1566,9 @@ MovieousMicrophoneConfiguration
 - (BOOL)validateWithError:(NSError **)outError;
 
 @end
-```
+```
 
-## Video configuration
+### Video configuration
 ```objectivec
 /**
  * @brief Video configuration class
