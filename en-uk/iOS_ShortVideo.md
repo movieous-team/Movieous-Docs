@@ -2,6 +2,10 @@
 
 ##  Release Note
 
+### v1.0.2(2018-12-27)
+- rename `MSVImagePasterEffect` to `MSVImageStickerEffect`
+- change interface documentation language to English
+
 ### v1.0.1(2018-12-3)
 - support license authentication
 - fix preview error when media service is resetted because of frequent backgroud audio switch operations, etc.
