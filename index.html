@@ -19,7 +19,7 @@
     nav.app-nav li ul {
       min-width: 100px;
     }
-    #cf_ad {
+    #cf {
       display: none;
     }
   </style>
@@ -44,7 +44,6 @@
         loadNavbar: true,
         mergeNavbar: true,
         maxLevel: 4,
-        themeColor: '#1045FD',
         subMaxLevel: 3,
         name: 'Movieous',
         nameLink: {
@@ -63,26 +62,26 @@
             }
         },
         formatUpdated: '{MM}/{DD} {HH}:{mm}',
-        plugins: [
-            function (hook, vm) {
-                hook.beforeEach(function (html) {
-                    if (/githubusercontent\.com/.test(vm.route.file)) {
-                        url = vm.route.file
-                            .replace('raw.githubusercontent.com', 'github.com')
-                            .replace(/\/master/, '/blob/master')
-                    } else {
-                        url = 'https://github.com/movieous-team/Movieous-Docs/blob/master/docs/' + vm.route.file
-                    }
-                    var editHtml = '[Edit Document](' + url + ')\n'
-
-                    return editHtml
-                        + html
-                        + '\n\n----\n\n'
-                        + '<a href="https://docsify.js.org" target="_blank" style="color: inherit; font-weight: normal; text-decoration: none;">Powered by docsify</a>'
-                })
-            },
-            DocsifyCodefund.create('fae1f9a4-870c-4c25-b8e0-c80464f7a95c')
-        ]
+        // plugins: [
+        //     function (hook, vm) {
+        //         hook.beforeEach(function (html) {
+        //             if (/githubusercontent\.com/.test(vm.route.file)) {
+        //                 url = vm.route.file
+        //                     .replace('raw.githubusercontent.com', 'github.com')
+        //                     .replace(/\/master/, '/blob/master')
+        //             } else {
+        //                 url = 'https://github.com/movieous-team/Movieous-Docs/blob/master/docs/' + vm.route.file
+        //             }
+        //             var editHtml = '[Edit Document](' + url + ')\n'
+        //
+        //             return editHtml
+        //                 + html
+        //                 + '\n\n----\n\n'
+        //                 + '<a href="https://docsify.js.org" target="_blank" style="color: inherit; font-weight: normal; text-decoration: none;">Powered by docsify</a>'
+        //         })
+        //     },
+        //     DocsifyCodefund.create('fae1f9a4-870c-4c25-b8e0-c80464f7a95c')
+        // ]
     }
 </script>
 <script>

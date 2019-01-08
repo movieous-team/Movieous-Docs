@@ -1,8 +1,7 @@
 ## Movieous
 
-> Movieous 为客户提供完善的音视频解决方案。
+Movieous 为客户提供完善的音视频解决方案。
 
-<!-- 查看 [项目简介](introduction.md) 了解详情。 -->
 
 ### Movieous 官方网站
 
@@ -10,4 +9,4 @@
 
 [点击查看官网](https://www.movieous.cn/)
 
-![demo-2.png](../_images/loading_page.jpg)
+![demo-2.png](../_images/loading_page.png)
