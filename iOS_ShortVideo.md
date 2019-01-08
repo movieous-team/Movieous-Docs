@@ -2,9 +2,13 @@
 
 ##  Release Note
 
+### v1.0.2(2018-12-27)
+- 重命名 `MSVImagePasterEffect` 为 `MSVImageStickerEffect`
+- 接口文档调整为英文版
+
 ### v1.0.1(2018-12-3)
-- 添加 license 验证支持
-- 修复频繁切换背景音频等操作可能导致媒体服务被重置后无法正常预览的问题
+- 添加鉴权支持
+- 修复频繁切换背景音乐等操作可能导致的音频服务被重置，无法正常预览的问题
 
 ### v1.0.0(2018-11-28)
 - 音/视频采集
@@ -22,52 +26,11 @@
 - 视频保存为 mp4 格式
 - 支持 arm64, x86_64 体系架构
 
-## 如何安装
-### Cocoapods 集成
-
-#### 安装 Cocoapods
-
-如果您已安装 Cocoapods，则请直接跳过该步骤，直接进入下一步骤。
-如果你未接触过 Cocoapods ，我们推荐您阅读 [唐巧的博客-用CocoaPods做iOS程序的依赖管理](https://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/ "用CocoaPods做iOS程序的依赖管理") ，了解我们为何使用 Cocoapods 。另外文章中提及的淘宝源已经不再维护，需要使用 [Ruby-China RubyGems 镜像](https://gems.ruby-china.com/)替换。
-
-如果觉得上面两个文章比较繁琐，可以直接根据我们提供的简要步骤，进行安装。
-* 简要步骤：打开mac自带的 终端(terminal)，然后输入依次执行下述命令。
-
-```bash
-# 注释：Ruby-China 推荐2.6.x，实际 mac  自带的 ruby 也能用了
-gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
-gem sources -l
-# 注释：上面的命令，应该会输出以下内容，>>> 代表此处为输出
->>> https://gems.ruby-china.com
-# 注释：确保只有 gems.ruby-china.com
-
-sudo gem install cocoapods
-# 注释：由于我们不需要使用官方库，所以可以不执行 pod setup。
-```
-
-#### 使用Podfile集成
-
-通过 [CocoaPods](https://cocoapods.org/) 安装可以最大化地简化安装过程。
-首先，在项目根目录下的 Podfile 文件中添加以下 pods（我们假设您的项目 target 名称为 `iOSDemo`）：
-
-```ruby
-target 'iOSDemo' do
-    pod 'MovieousShortVideo'
-end
-```
-
-<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)">然后在项目根目录执行 </span></span>`pod install`<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)"> </span></span>命令，执行成功后，SDK 就集成到项目中了。
-<em>如果长时间没有拉取过pod 仓库，可能出现无法找到我们的repo的情况，此时建议先使用 </em><code><em>pod repo update</em></code><em> 更新pod仓库。</em>
-
-#### SDK 支持情况：
-
-支持 iOS8 及其以上版本。
-
 ## 快速开始
 Hi, 亲爱的开发者，欢迎使用 Movieous 短视频 SDK。本教程将引导你在自己的 iOS 工程中集成短视频录制，编辑及导出功能。不过首先，我们假定你已经了解 Objective-C 的基础语法。
 
 ### 添加依赖
-* 首先，你需要参考上一节将 MovieousShortVideo 引入你的工程
+* 首先，你需要参考 [iOS 短视频 SDK 安装](iOS_ShortVideo_Install.md) 将 MovieousShortVideo 引入你的工程
 
 ### 引入相关头文件
 在您需要集成短视频 SDK 的页面源文件中添加如下语句
@@ -79,7 +42,7 @@ Hi, 亲爱的开发者，欢迎使用 Movieous 短视频 SDK。本教程将引�
 ### 视频录制
 - 添加麦克风和摄像头使用权限
 打开项目配置页面，Info 选项添加 `Privacy - Camera Usage Description` 和 `Privacy - Microphone Usage Description` 描述
-![image](./_images/authorization.png)
+![image](./images/authorization.png)
 
 - 生成音频和视频的配置对象并根据需求进行相关参数的更改
 ```objectivec
@@ -213,8 +176,49 @@ Hi, 亲爱的开发者，欢迎使用 Movieous 短视频 SDK。本教程将引�
     [_exporter startExport];
 ```
 
+## 如何安装
+### Cocoapods 集成
+
+#### 安装 Cocoapods
+
+如果您已安装 Cocoapods，则请直接跳过该步骤，直接进入下一步骤。
+如果你未接触过 Cocoapods ，我们推荐您阅读 [唐巧的博客-用CocoaPods做iOS程序的依赖管理](https://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/ "用CocoaPods做iOS程序的依赖管理") ，了解我们为何使用 Cocoapods 。另外文章中提及的淘宝源已经不再维护，需要使用 [Ruby-China RubyGems 镜像](https://gems.ruby-china.org/)替换。
+
+如果觉得上面两个文章比较繁琐，可以直接根据我们提供的简要步骤，进行安装。
+* 简要步骤：打开mac自带的 终端(terminal)，然后输入依次执行下述命令。
+
+```bash
+# 注释：Ruby-China 推荐2.6.x，实际 mac 自带的 ruby 也能用了
+gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+gem sources -l
+# 注释：上面的命令，应该会输出以下内容，>>> 代表此处为输出
+>>> https://gems.ruby-china.com
+# 注释：确保只有 gems.ruby-china.com
+
+sudo gem install cocoapods
+# 注释：由于我们不需要使用官方库，所以可以不执行 pod setup。
+```
+
+#### 使用Podfile集成
+
+通过 [CocoaPods](https://cocoapods.org/) 安装可以最大化地简化安装过程。
+首先，在项目根目录下的 Podfile 文件中添加以下 pods（我们假设您的项目 target 名称为 `iOSDemo`）：
+
+```ruby
+target 'iOSDemo' do
+    pod 'MovieousShortVideo'
+end
+```
+
+<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)">然后在项目根目录执行 </span></span>`pod install`<span data-type="color" style="color:rgb(51, 51, 51)"><span data-type="background" style="background-color:rgb(255, 255, 255)"> </span></span>命令，执行成功后，SDK 就集成到项目中了。
+<em>如果长时间没有拉取过pod 仓库，可能出现无法找到我们的repo的情况，此时建议先使用 </em><code><em>pod repo update</em></code><em> 更新pod仓库。</em>
+
+#### SDK 支持情况：
+
+支持 iOS8 及其以上版本。
+
 ## 主要概念
-###草稿(MSVDraft)
+### 草稿(MSVDraft)
 
 草稿是 MovieousShortVideo 的核心数据结构，它代表一个正在制作过程当中的视频项目，它保存了所有的音视频数据源，剪辑，音量调整，特效等等构成最终视频的所有元素，录制阶段的输出、编辑阶段的输入及输出、导出阶段的输入均为草稿对象，开发者所有的视频编辑操作都通过草稿对象来完成。
 

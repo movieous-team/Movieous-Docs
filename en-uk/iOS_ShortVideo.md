@@ -2,6 +2,10 @@
 
 ##  Release Note
 
+### v1.0.2(2018-12-27)
+- rename `MSVImagePasterEffect` to `MSVImageStickerEffect`
+- change interface documentation language to English
+
 ### v1.0.1(2018-12-3)
 - support license authentication
 - fix preview error when media service is resetted because of frequent backgroud audio switch operations, etc.
@@ -496,7 +500,7 @@ typedef NS_ENUM(NSInteger, MSVVideoTransitionType) {
 @end
 ```
 
-### 背景音效的配置类(MSVBackgroundAudioConfiguration)
+### Background audio configuration class(MSVBackgroundAudioConfiguration)
 ```objectivec
 /**
  * @brief Background audio configuration class
@@ -1568,7 +1572,7 @@ MovieousMicrophoneConfiguration
 @end
 ```
 
-## Video configuration
+### Video configuration
 ```objectivec
 /**
  * @brief Video configuration class
