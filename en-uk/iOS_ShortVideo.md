@@ -2,6 +2,9 @@
 
 ##  Release Note
 
+### v1.0.3(2019-1-15)
+- fix video transform bug
+
 ### v1.0.2(2018-12-27)
 - rename `MSVImagePasterEffect` to `MSVImageStickerEffect`
 - change interface documentation language to English

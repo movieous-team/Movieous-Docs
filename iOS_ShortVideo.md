@@ -2,6 +2,9 @@
 
 ##  Release Note
 
+### v1.0.3(2019-1-15)
+- 修复视频旋转的 bug
+
 ### v1.0.2(2018-12-27)
 - 重命名 `MSVImagePasterEffect` 为 `MSVImageStickerEffect`
 - 接口文档调整为英文版
