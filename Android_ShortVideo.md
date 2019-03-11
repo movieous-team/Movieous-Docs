@@ -1,8 +1,23 @@
 # Android SDK
 
-## Release Note
+## 发版说明
 
-### 1.0.0 版本发布
+### v2.0.1 (2018-03-08)
+
+- 2.0.1
+  - 发布 ushortvideo-2.0.1.jar
+  - 增加左右平分布局视频合拍功能
+  - 增加 view 录制功能
+
+### v2.0.0 (2018-03-01)
+
+- 2.0.0
+  - 发布 ushortvideo-2.0.0.jar
+  - 发布 libuaudio_converter.so
+  - 核心模块重构，性能更出色
+  - 增加 log 管理模块，自动捕获保存 crash 信息
+
+### v1.0.0 (2018-11-28)
 
 - 1.0.0
   - 发布 ushortvideo-1.0.0.jar
@@ -28,15 +43,14 @@
 
 ## 如何安装
 
-- 把 `release` 目录下的 `jar` 包拷贝到工程的 `libs` 目录下
+- 把 `release` 目录下的 `jar` 文件拷贝到工程的 `libs` 目录下
 - 把 `release` 目录下的 `arm64-v8a、armeabi-v7a、x86` 目录拷贝到 `main` 下 的 `jniLibs` 目录下
-- 把 `release` 目录下的 `assets` 文件夹下的内容拷贝到 `assets` 目录下
 
 ## 快速开始
 
 ### 开发环境
 
-- Android Studio 集成 IDE 开发平台，[下载](http://developer.android.com/intl/zh-cn/sdk/index.html)
+- Android Studio 集成 IDE 开发平台，[下载](https://developer.android.google.cn/studio)
 - Android 开发 SDK，[下载](https://developer.android.com/intl/zh-cn/sdk/index.html#Other)
 
 ### 系统要求
@@ -45,16 +59,12 @@
 
 ### 文件说明
 
-SDK 主要包含 jar 包、动态库、以及相关的滤镜资源文件，具体说明如下：
+SDK 主要包含 jar 文件和 native 动态库，具体说明如下：
 
 | 文件名称                           | 功能      | 大小    | 备注          |
 | ------------------------------ | ------- | ----- | ----------- |
-| ushortvideo-x.x.x.jar          | 核心库    | 292KB | 必须依赖        |
-| libcore.so                     | 核心库    |  78KB | 必须依赖        |
-| libmuxer.so                    | 核心库    | 802KB | 必须依赖        |
-| libamix.so                     | 混音模块   | 404KB | 不使用混音功能可以去掉 |
-| libencoder.so                  | 软编码模块 | 3.0MB | 不使用软编功能可以去掉 |
-| assets                         | 内置美颜滤镜 | 6.2KB | 不使用内置美颜可以去掉 |
+| ushortvideo-x.x.x.jar          | 核心库     | 388KB | 必须依赖        |
+| libuaudio_converter.so         | 音频模块   | 387KB | 不使用混音功能可以去掉 |
 
 ### 添加依赖
 
@@ -82,7 +92,7 @@ dependencies {
 ### 初始化 SDK
 
 ```java
-// MOVIEOUS_SIGN，在 Movieous 后台创建 APP 时生成，需要在初始化时传递给 SDK 进行鉴权
+// MOVIEOUS_SIGN，在控制台创建 APP 时生成，需要在初始化时传递给 SDK 进行鉴权
 UShortVideoEnv.init(context, MOVIEOUS_SIGN)
 ```
 
@@ -91,125 +101,84 @@ UShortVideoEnv.init(context, MOVIEOUS_SIGN)
 #### 创建录制对象类
 
 ```java
-UVideoRecord mVideoRecorder = new UVideoRecord();
-// 设置录制状态回调
-mVideoRecorder.setRecordStateListener(this);
-// 设置视频数据回调
-mVideoRecorder.setVideoFrameListener(this);
-```
-
-#### 创建录制参数类
-
-SDK 提供了丰富的录制参数，可以通过以下方式进行配置：
-
-```java
-// 摄像头采集参数
-UCameraParam cameraParam = new UCameraParam();
-// 麦克风采集参数
-UMicrophoneParam microphoneParam = new UMicrophoneParam();
-// 视频编码参数
-UVideoEncodeParam videoEncodeParam = new UVideoEncodeParam(getContext());
-videoEncodeParam.setEncodingSizeLevel(UVideoEncodeParam.VIDEO_ENCODING_SIZE_LEVEL.SIZE_720P_16_9);
-videoEncodeParam.setEncodingBitrate(Constants.DEFAULT_ENCODING_BITRATE);
-// 音频编码参数
-UAudioEncodeParam audioEncodeParam = new UAudioEncodeParam();
-// 录制参数
-URecordParam recordParam = new URecordParam();
-recordParam.setMaxRecordDuration(Constants.DEFAULT_MAX_RECORD_DURATION);
-recordParam.setVideoCacheDir(Constants.VIDEO_STORAGE_DIR);
-recordParam.setVideoFilePath(Constants.RECORD_FILE_PATH);
-```
-
-#### 创建预览窗口
-
-视频预览窗口为 `GLSurfaceView`，可以在 XML 布局文件中创建，也可以通过代码动态创建。
-
-#### 配置录制参数
-
-通过初始化接口 `init` 把录制参数配置到 SDK 中：
-
-```java
-mVideoRecorder.init(preview, cameraParam, microphoneParam, videoEncodeParam, audioEncodeParam, recordParam);
+// 设置预览画面和相关回调
+UTextureView mPreview = $(R.id.render_view);
+mVideoRecorder = new UVideoRecordManager()
+        .init(mPreview)
+        .setRecordListener(this)
+        .setFocusListener(this)
+        .setVideoFrameListener(this);
 ```
 
 #### 生命周期
 
-请在 `Activity` 或者 `Fragment` 的生命周期回调中，需要调用 `UVideoRecord` 对应的方法：
+请在 `Activity` 或者 `Fragment` 的生命周期回调中，调用 `UVideoRecordManager` 对应的方法：
 
 ```java
 @Override
 protected void onResume() {
     super.onResume();
-    mVideoRecorder.resume();
+    mVideoRecorder.startPreview();
 }
 @Override
 protected void onPause() {
     super.onPause();
-    mVideoRecorder.pause();
+    mVideoRecorder.stopPreview();
 }
 @Override
 protected void onDestroy() {
     super.onDestroy();
-    mVideoRecorder.destroy();
+    mVideoRecorder.release();
 }
 ```
 
-#### 视频录制
+#### 录制视频
 
 上述配置完成后，就可以开始录制视频了。
+通过 `startRecord` 和 `stopRecord` 方法可以录制视频片段，视频片段保存在 APP 的 cache 目录下，录制一个或多个视频片段后，调用 `combineClip` 方法合成最终的视频文件。
 
 ```java
 // 开始录制视频片段
-mVideoRecorder.start();
-// 停止录制
-mVideoRecorder.stop();
+mVideoRecorder.startRecord();
+// 结束录制视频片段
+mVideoRecorder.stopRecord();
 // 合成本次录制的所有视频片段
-mVideoRecorder.mergeClips(this);
+mVideoRecorder.combineClip(mOutFile, this);
 ```
 
 ### 视频编辑
 
-#### 创建参数类
-
-通过 `UVideoEditParam` 配置视频编辑的参数：
-
-```java
-UVideoEditParam videoEditParam = new UVideoEditParam();
-// 需要处理的视频文件路径
-videoEditParam.setMediaFilepath(mediaFilepath);
-// 处理后的文件保存路径
-videoEditParam.setSaveFilepath(saveFilepath);
-```
-
 #### 创建视频编辑对象
 
 ```java
-// preview 用于预览渲染视频
-UVideoEdit mVideoEditor = new UVideoEdit(preview, videoEditParam);
-mVideoEditor.setVideoFrameListener(this);
-mVideoEditor.setVideoSaveListener(this);
+// mPreview 用于渲染预览视频
+mVideoEditor = new UVideoEditManager()
+        .init(mPreview, mVideoPath)
+        .setVideoFrameListener(this)
+        .setVideoPlayerListener(this)
+        .setVideoSaveListener(this);
 ```
 
-#### 预览效果
+#### 预览播放
 
 ```java
 // 开始播放
-mVideoEditor.startPlay();
+mVideoEditor.start();
 // 恢复播放
-mVideoEditor.resumePlay();
+mVideoEditor.resume();
 // 暂停播放
-mVideoEditor.pausePlay();
+mVideoEditor.pause();
 // 停止播放
-mVideoEditor.stopPlay();
+mVideoEditor.stop();
 ```
 
-#### 特效处理
+#### 美颜、贴纸等三方特效处理
 
-在预览播放的过程中，可以通过如下接口，对回调出来的视频数据进行各种效果的处理:
+在预览播放的过程中，可以通过如下接口，对回调出来的视频数据进行各种特效处理:
 
 ```java
 @Override
-public int onDrawFrame(int texId, int texWidth, int texHeight, long timestampNs, float[] transformMatrix) {
+public int onDrawFrame(int texId, int texWidth, int texHeight) {
     ...
 }
 ```
@@ -219,7 +188,9 @@ public int onDrawFrame(int texId, int texWidth, int texHeight, long timestampNs,
 编辑后的视频，调用如下接口进行保存：
 
 ```java
-mVideoEditor.save();
+mVideoEditor.save(Constants.EDIT_FILE_PATH); // 没有外部特效
+// 或
+mVideoEditor.save(Constants.EDIT_FILE_PATH, listener); // 有外部特效
 ```
 
 ## 主要概念
@@ -228,9 +199,9 @@ mVideoEditor.save();
 
 SDK 的接口设计，遵循了如下的原则：
 
-- 接口类均以 `U` 开头
-- 参数类均以 `UxxxParam` 命名
-- 回调类均以 `UxxxListener` 命名
+- 接口类以 `U` 开头
+- 参数通过 `UAVOptions` 设置
+- 回调类以 `UxxxListener` 命名
 
 ### 核心接口
 
@@ -238,911 +209,1412 @@ SDK 的接口设计，遵循了如下的原则：
 
 | 类名                      | 说明         | 备注              |
 | :------------------------ | ----------- | ---------------- |
-| UVideoRecord              | 负责视频拍摄录制      | 无 |
-| UVideoEdit                | 负责视频编辑处理      | 无 |
+| UVideoRecordManager       | 负责视频拍摄录制      | 无 |
+| UVideoEditManager         | 负责视频编辑处理      | 无 |
+| UImageEditManager         | 负责图片合成视频      | 无 |
+| UViewRecordManager        | 负责 view 录制       | 无 |
+| UMultiVideoRecordManager  | 负责视频合拍          | 无 |
+| USticker                  | 文字、图像等贴纸类     | 无 |
 
 #### 参数类
 
 | 类名                      | 说明        | 备注              |
 | :------------------------ | ----------- | ---------------- |
-| URecordParam              | 录制文件相关参数    | 无 |
-| UCameraParam              | Camera 采集参数    | 无 |
-| UMicrophoneParam          | 麦克风采集参数      | 无 |
-| UVideoEncodeParam         | 视频编码参数        | 无 |
-| UAudioEncodeParam         | 音频编码参数        | 无 |
-| UVideoEditParam           | 编辑文件相关参数     | 无 |
+| UAVOptions                | 设置录制、编辑文件输出参数    | 无 |
 
 #### 回调类
 
 | 类名                      | 说明        | 备注              |
 | :------------------------ | ----------- | ---------------- |
-| URecordStateListener      | 录制过程状态回调    | 无 |
-| USaveFileListener         | 文件保存过程信息回调    | 无 |
+| URecordListener           | 录制过程状态回调    | 无 |
+| UVideoSaveListener        | 文件保存过程信息回调    | 无 |
 | UVideoFrameListener       | 视频数据回调       | 纹理数据，支持第三方特效处理 |
 | UAudioFrameListener       | 音频数据回调       | PCM 数据，支持音频处理 |
+| UVideoPlayListener        | 播放状态回调       | 无 |
 
 ## 使用指南
 
-### 核心类
+### 常用功能
 
-短视频核心类有 2 个，分别是 `UVideoRecord` 、 `UVideoEdit`，分别完成音视频的录制和后期编辑处理工作。
+#### 视频剪辑
 
-#### UShortVideoEnv
+创建 `UVideoEditManager` 对象:
 
-`UShortVideoEnv` 包含了 SDK 初始化的接口，必须在 APP 启动时调用，方法列表如下：
+```java
+mVideoEditManager = new UVideoEditManager();
+```
+
+初始化视频剪辑对象，开始播放视频.
+
+```java
+mVideoEditManager.init(mRenderView, mVideoFile)
+        .setVideoFrameListener(this)
+        .setVideoSaveListener(this)
+        .start();
+```
+
+设置输出路径、剪辑时间，开始剪辑.
+
+```java
+UMediaTrimTime trimTime = new UMediaTrimTime(startTimeMs, endTimeMs);
+mVideoEditManager.transcode(mOutFile, trimTime);
+```
+
+剪辑进度和结果会通过 `UVideoSaveListener` 回调给用户.
+
+#### 图片合成
+
+创建并初始化 `UImageEditManager` 对象
+
+```java
+mImageEditManager = new UImageEditManager();
+mImageEditManager.init(this, mRenderView);
+```
+
+设置图片文件路径列表
+
+```java
+mImageEditManager.setImageList(photos);
+```
+
+设置转场特效
+
+```java
+mImageEditManager.changeTransfer(item.type);
+```
+
+设置背景音乐
+
+```java
+mImageEditManager.setMusic(musicFile);
+```
+
+预览合成文件效果，确认后保存文件
+
+```java
+mImageEditManager.saveVideo(new UVideoSaveListener() {
+    @Override
+    public void onVideoSaveProgress(float progress) {
+        // 合成进度
+        dialog.setProgress((int) (progress * 100));
+    }
+
+    @Override
+    public void onVideoSaveSuccess(String path) {
+        // 保存成功, 回调文件路径
+    }
+});
+```
+
+#### 视频合拍
+
+创建并初始化 `UMultiVideoRecordManager` 视频合拍对象
+
+```java
+mRecordManager = new UMultiVideoRecordManager();
+// 设置输出文件尺寸
+UAVOptions options = new UAVOptions()
+        .setInteger(UAVOptions.KEY_VIDEO_WIDTH, 720)
+        .setInteger(UAVOptions.KEY_VIDEO_HEIGHT, 640);
+mRecordManager.setAVOptions(options);
+// 设置合拍视频文件路径
+mRecordManager.setVideoFile(videoFile);
+mRecordManager.init(mRenderView);
+```
+
+在 `Activity` 或者 `Fragment` 的生命周期中启动或停止画面预览
+
+```java
+// 开始预览
+mRecordManager.startPreview();
+// 停止预览
+mRecordManager.stopPreview();
+```
+
+开始录制
+
+```java
+mRecordManager.startRecord();
+```
+
+结束录制
+
+```java
+mRecordManager.stopRecord();
+```
+
+#### VIEW 录制
+
+创建并初始化 `UViewRecordManager` 录制对象
+
+```java
+mViewRecordManager = new UViewRecordManager();
+mViewRecordManager.init(mRenderView);
+```
+
+设置输出文件路径
+
+```java
+mViewRecordManager.setRecordFile(OUT_FILE);
+```
+
+把需要录制的 view 放到 `ULinearLayout` 或者 `URelativeLayout` 容器中，设置录制 view 的容器
+
+```java
+mViewRecordManager.setRecordView(mLinearLayout);
+```
+
+开始录制
+
+```java
+mViewRecordManager.startRecord();
+```
+
+结束录制
+
+```java
+mViewRecordManager.stopRecord();
+```
+
+#### 添加背景音乐
+
+在录制或者编辑视频时，可以通过以下接口添加背景音乐：
 
 ```java
 /**
- * Initialize the environment of SDK.
- * <p>
- * You must invoke it when application launch, otherwise, {@link IllegalStateException}
- * will be thrown when invoke the {@link UVideoRecord} or {@link UVideoEdit}
+ * 设置背景音乐
  *
- * @param context the context of the Application
- * @param sign    the Movieous sign
+ * @param file 背景音乐文件
  */
-public static void init(Context context, String sign)
-
-/**
- * Set log level.
- *
- * @param level the level，See also {@link com.movieous.base.Log#V}/{@link Log#D}/{@link Log#I}/{@link Log#W}/{@link Log#E}
- */
-public static void setLogLevel(int level)
+public void setMusicFile(String file)
 ```
 
-#### UVideoRecord
+#### 三方特效处理
 
-`UVideoRecord` 包含了录制短视频需要的接口，方法列表如下：
+在录制或者编辑视频时，通过 `setVideoFrameListener` 接口，可以集成第三方美颜和贴纸等特效的处理逻辑
 
 ```java
 /**
- * init the recorder
+ * 设置视频渲染相关事件回调
  *
- * @param preview          the GLSurfaceView
- * @param cameraParam      the camera param
- * @param microphoneParam  the microphone param
- * @param videoEncodeParam the video encode param
- * @param audioEncodeParam the audio encode param
- * @param beautyParam      the face beauty param
- * @param recordParam      the record param
+ * @param listener 视频渲染事件回调，参见 {@link UVideoFrameListener}
  */
-public void init(GLSurfaceView preview,
-                 UCameraParam cameraParam,
-                 UMicrophoneParam microphoneParam,
-                 UVideoEncodeParam videoEncodeParam,
-                 UAudioEncodeParam audioEncodeParam,
-                 UBeautyParam beautyParam,
-                 URecordParam recordParam)
-
-/**
- * Resume.
- */
-public void resume()
-
-/**
- * Pause.
- */
-public void pause()
-
-/**
- * Destroy.
- */
-public void destroy()
-
-/**
- * Set filter file path
- *
- * @param filterPath   filter file path
- * @param isAssetFile  whether asset file or sdcard file
- */
-public void setFilterFile(String filterPath, boolean isAssetFile)
-
-/**
- * Set watermark.
- *
- * @param watermarkParam the watermark param
- */
-public void setWatermark(UWatermarkParam watermarkParam)
-
-/**
- * Start record clip.
- */
-public boolean start()
-
-/**
- * Stop record clip.
- */
-public boolean stop()
-
-/**
- * Remove last clip.
- */
-public boolean removeLastClip()
-
-/**
- * Remove all of the clips.
- */
-public boolean removeAllClips()
-
-/**
- * Merge clips.
- *
- * @param listener the listener
- */
-public void mergeClips(USaveFileListener listener)
-
-/**
- * cancel previous clips merging
- */
-public void cancelMerge()
-
-/**
- * set music file in sd card
- *
- * @param filePath the music file path
- */
-public void setMusicFile(String filePath)
-
-/**
- * set music position
- *
- * @param position the position
- */
-public void setMusicStartPosition(int position)
-
-/**
- * Sets camera preview listener.
- *
- * @param listener the listener
- */
-public final void setCameraPreviewListener(UCameraPreviewListener listener)
-
-/**
- * Sets video frame listener.
- *
- * @param listener the listener
- */
-public final void setVideoFrameListener(UVideoFrameListener listener)
-
-/**
- * set video speed of the recording, only support multiple of 2 or multiple of 1/2 for now.
- *
- * @param recordSpeed  4, 2, 0.5, 0.25 etc
- */
-public void setVideoSpeed(double recordSpeed)
-
-/**
- * Sets audio frame listener.
- *
- * @param listener the listener
- */
-public final void setAudioFrameListener(UAudioFrameListener listener)
-
-/**
- * Sets record state listener.
- *
- * @param listener the listener
- */
-public final void setRecordStateListener(URecordStateListener listener)
-
-/**
- * Mute microphone
- */
-public void mute(boolean isMute)
-
-/**
- * Switch camera.
- */
-public void switchCamera()
-
-/**
- * specify the focus area size on previous set preview with the corresponding central x and y coordinate.
- *
- * @param focusAreaWidth    area width
- * @param focusAreaHeight   area height
- * @param focusAreaCenterX  area center x
- * @param focusAreaCenterY  area center y
- */
-public void manualCameraFocus(int focusAreaWidth, int focusAreaHeight, int focusAreaCenterX, int focusAreaCenterY)
-
-/**
- * capture the present preview frame
- *
- * @param listener
- */
-public void captureVideoFrame(UCaptureVideoFrameListener listener)
-
-/**
- * set exposure compensation to adjust brightness
- *
- * @param value to be set value
- */
-public void setExposureCompensation(int value)
-
-/**
- * set zoom ratio of camera, must be called {@link #getCameraZoomRatios()} first
- *
- * @param zoom the value in {{@link #getCameraZoomRatios()}}
- */
-public void setCameraZoomRatio(float zoom)
-
-/**
- * get available zoom ratio values, sorted from small to large
- *
- * @return null if zoom not supported
- */
-public List<Float> getCameraZoomRatios()
-
-/**
- * set the listener for focus related events
- *
- * @param focusListener the listener
- */
-public void setCameraFocusListener(UCameraFocusListener focusListener)
-
-/**
- * Update builtin face beauty param.
- *
- * @param beautyParam the face beauty param
- */
-public void updateBeautyParam(UBeautyParam beautyParam)
-
-/**
- * Turn flashlight on or off. Set the flashlight to FLASH_MODE_TORCH mode.
- * <p>
- * The following situations will cause the failed invocation:
- * <ol>
- * <li> Camera is unactivated
- * <li> The handset don't support flashlight
- * <li> The handset don't support FLASH_MODE_TORCH mode
- * </ol>
- *
- * @return true if operate successfully, otherwise, false.
- */
-public boolean setCameraFlashEnabled(boolean enabled)
-
+public UVideoRecordManager setVideoFrameListener(UVideoFrameListener listener)
 ```
 
-#### UVideoEdit
-
-`UVideoEdit` 包含了编辑短视频需要的接口，方法列表如下：
-
-```java
-/**
- * Constructor of UVideoEdit
- *
- * @param preview Play preview screen
- * @param param   Video editing parameters
- */
-public UVideoEdit(GLSurfaceView preview, UVideoEditParam param)
-
-/**
- * Sets video frame listener.
- */
-public final void setVideoFrameListener(UVideoFrameListener listener)
-
-/**
- * Start playback
- */
-public void startPlay()
-
-/**
- * Resume play
- */
-public void resumePlay()
-
-/**
- * Pause play
- */
-public void pausePlay()
-
-/**
- * Stop play
- */
-public void stopPlay()
-
-/**
- * Setting encoding parameters
- *
- * @param param video encode parameters
- */
-public void setVideoEncodeParam(UVideoEncodeParam param)
-
-/**
- * whether or not looping play
- */
-public void setPlayLoop(boolean loop)
-
-/**
- * set display mode of preview
- */
-public void setDisplayMode(UDisplayMode displayMode)
-
-/**
- * set speed of the video, only support multiple of 2 or multiple of 1/2 for now.
- *
- * @param speed 4, 2, 0.5, 0.25 etc
- */
-public void setVideoSpeed(double speed)
-
-/**
- * seek to target position
- */
-public void seekTo(int millisecond)
-
-/**
- * get current video position
- *
- * @return millisecond
- */
-public int getCurrentPosition()
-
-/**
- * set video mix file, blend a video with current one
- *
- * @param mvFile   mv file
- * @param maskFile mask file for alpha channel
- */
-public void setVideoMixFile(String mvFile, String maskFile)
-
-/**
- * Sets video save listener.
- */
-public void setVideoSaveListener(USaveFileListener listener)
-
-/**
- * Sets video player listener.
- */
-public void setVideoPlayListener(UVideoPlayListener listener)
-
-/**
- * Set filter file path
- *
- * @param filterPath  filter file path, null to clear filter
- * @param isAssetFile whether asset file or sdcard file
- */
-public void setFilterFile(String filterPath, boolean isAssetFile)
-
-/**
- * Sets watermark.
- *
- * @param watermarkParam the watermark param
- */
-public void setWatermark(UWatermarkParam watermarkParam)
-
-/**
- * set audio mix file
- *
- * @param file the mix audio file
- */
-public void setAudioMixFile(String file)
-
-/**
- * set audio mix asset
- *
- * @param afd the AssetFileDescriptor
- */
-public void setAudioMixAssetFile(AssetFileDescriptor afd)
-
-/**
- * get audio mix file duration
- *
- * @return duration: ms
- */
-public int getAudioMixFileDuration()
-
-/**
- * set audio mix start position
- *
- * @param startTime start position, ms
- * @param endTime   end position
- */
-public void setAudioMixFileDuration(long startTime, long endTime)
-
-/**
- * Set origin audio volume
- *
- * @param volume origin audio volume
- */
-public void setAudioVolume(float volume)
-
-/**
- * Set mix audio volume
- *
- * @param volume mix audio volume
- */
-public void setAudioMixVolume(float volume)
-
-/**
- * set whether mix audio looping or not
- *
- * @param isLooping
- */
-public void setAudioMixLooping(boolean isLooping)
-
-/**
- * mute origin audio
- */
-public void muteOriginAudio(boolean isMute)
-
-/**
- * Save the edited video file path with video frame callback.
- */
-public void save(UVideoFrameListener listener)
-
-/**
- * cancel previous video saving
- */
-public void cancelSave()
-
-/**
- * get source video duration in Ms
- *
- * @return ms
- */
-public long getMediaFileDurationMs()
-
-/**
- * Add the UTextView to the preview screen.
- */
-public void addTextView(UTextView textView)
-
-/**
- * Remove the UTextView from it's parent.
- */
-public void removeTextView(UTextView textView)
-
-/**
- * Add the UPaintView to the preview screen.
- */
-public void addPaintView(UPaintView paintView)
-
-/**
- * Remove the UPaintView from it's parent.
- */
-public void removePaintView(UPaintView paintView)
-
-/**
- * Add the UImageView to the preview screen.
- */
-public void addImageView(UImageView imageView)
-
-/**
- * Remove the UImageView from it's parent.
- */
-public void removeImageView(UImageView imageView)
-
-/**
- * Set the view's display duration time, the view must be added.
- *
- * @param view       the added view, can be UImageView, UTextView and UPaintView
- * @param beginMs    time of the view begin to display
- * @param durationMs duration of the view display
- */
-public void setViewDuration(View view, long beginMs, long durationMs)
-
-/**
- * Set duration of the save video file.
- *
- * @param beginMs the beginning timestamp
- * @param endMs   the ending timestamp
- */
-public void setVideoDuration(long beginMs, long endMs)
-```
-
-### 参数类
-
-#### UCameraParam
-
-`UCameraParam` 类用于配置摄像头采集的相关参数，包含以下方法：
-
-```java
-/**
- * Set camera id.
- * default: CAMERA_FACING_ID.BACK
- */
-public UCameraParam setCameraId(CAMERA_FACING_ID cameraId)
-
-/**
- * Set camera preview size ratio.
- * default: CAMERA_PREVIEW_SIZE_RATIO.RATIO_16_9;
- */
-public UCameraParam setCameraPreviewSizeRatio(CAMERA_PREVIEW_SIZE_RATIO ratio)
-
-/**
- * Set camera preview size level.
- * default: CAMERA_PREVIEW_SIZE_LEVEL.SIZE_480P
- */
-public UCameraParam setCameraPreviewSizeLevel(CAMERA_PREVIEW_SIZE_LEVEL level)
-```
-
-#### UMicrophoneParam
-
-`UMicrophoneParam` 类用于配置麦克风采集的相关参数，包含以下方法：
-
-```java
-/**
- * Set audio source. see {@link android.media.MediaRecorder.AudioSource}
- * default: MediaRecorder.AudioSource.MIC
- */
-public UMicrophoneParam setAudioSource(int source)
-
-/**
- * Set sample rate.
- * default: 44100
- */
-public UMicrophoneParam setSampleRate(int sampleRate)
-
-/**
- * Set channel config. see {@link android.media.AudioFormat}
- * default: AudioFormat.CHANNEL_IN_MONO
- */
-public UMicrophoneParam setChannelConfig(int channelConfig)
-
-/**
- * Set audio format. see {@link android.media.AudioFormat}
- * default: AudioFormat.ENCODING_PCM_16BIT
- */
-public UMicrophoneParam setAudioFormat(int audioFormat)
-
- /**
-  * Set bluetooth sco enabled.
-  *
-  * @param enabled whether enabled or not
-  * @return the bluetooth sco enabled
- */
-public UMicrophoneParam setBluetoothScoEnabled(boolean enabled)
-
-/**
- * Set noise suppressor enabled.
- *
- * @param enabled whether enabled or not
- * @return whether noise suppressor setting successful or not
- */
-public boolean setNsEnabled(boolean enabled)
-
-/**
- * Set acoustic echo canceler enabled.
- *
- * @param enabled whether enabled or not
- * @return whether is acoustic echo canceler setting successful or not
- */
-public boolean setAecEnabled(boolean enabled)
-```
-
-#### UVideoEncodeParam
-
-`UVideoEncodeParam` 类用于配置视频编码的相关参数，包含以下方法：
-
-```java
-/**
- * Set preferred custom video encoding size
- *
- * @param width  encode width
- * @param height encode height
- */
-public UVideoEncodeParam setPreferredEncodingSize(int width, int height)
-
-/**
- * Set preset video encoding size level.
- *
- * @param level See also {@link VIDEO_ENCODING_SIZE_LEVEL}
- */
-public UVideoEncodeParam setEncodingSizeLevel(VIDEO_ENCODING_SIZE_LEVEL level)
-
-/**
- * Set video encoding fps.
- *
- * @param fps frame per second
- */
-public UVideoEncodeParam setEncodingFps(int fps)
-
-/**
- * Set video bitrate
- */
-public UVideoEncodeParam setEncodingBitrate(int bitrate)
-
-/**
- * Set key frame interval
- *
- * @param keyFrameIntervalCount key frame interval count
- */
-public UVideoEncodeParam setKeyFrameInterval(int keyFrameIntervalCount)
-```
-
-#### UAudioEncodeParam
-
-`UAudioEncodeParam` 类用于配置音频编码的相关参数，包含以下方法：
-
-```java
-/**
- * Set audio sample rate. default: 44100
- */
-public UAudioEncodeParam setSampleRate(int sampleRate)
-
-/**
- * Set audio channels. default: 1
- * 
- * @param channelCount audio channel count
- */
-public UAudioEncodeParam setChannels(int channelCount)
-
-/**
- * Set audio encoding bitrate. default: 44100
- */
-public UAudioEncodeParam setBitrate(int bitrate)
-```
-
-#### URecordParam
-
-`URecordParam` 类用于配置录制参数，包含以下方法：
-
-```java
-/**
- * Set max record duration. default: 10 * 1000 ms
- *
- * @param durationMs duration ms
- */
-public URecordParam setMaxRecordDuration(long durationMs)
-
-/**
- * Set record clip cache dir.
- */
-public URecordParam setClipCacheDir(File dir)
-
-/**
- * Set record clip cache dir.
- */
-public URecordParam setClipCacheDir(String dir)
-
-/**
- * Set record file save path
- */
-public URecordParam setRecordFilePath(String path)
-
-/**
- * Set display mode. default: {@link UDisplayMode#FULL}
- *
- * @param displayMode can be set {@link UDisplayMode#FULL} or {@link UDisplayMode#FIT}
- */
-public URecordParam setDisplayMode(UDisplayMode displayMode)
-
-/**
- * Set change record speed enabled or not.
- */
-public URecordParam setChangeRecordSpeedEnabled(boolean enabled)
-```
-
-#### UVideoEditParam
-
-`UVideoEditParam` 类用于配置视频编辑参数，包含以下方法：
-
-```java
-/**
- * Set source media file path.
- */
-public UVideoEditParam setMediaFilepath(String filepath)
-
-/**
- * Set save file path.
- */
-public UVideoEditParam setSaveFilepath(String destFilePath)
-
-/**
- * Whether keep origin file or not. default: true
- */
-public UVideoEditParam setKeepOriginFileEnabled(boolean isKeepEnabled)
-```
-
-#### UBeautyParam
-
-`UBeautyParam` 类用于配置内置美颜参数，包含以下方法：
-
-```java
-/**
- * Whether builtin face beauty enabled or not. default: false
- */
-public void setEnable(boolean enable)
-
-/**
- * Set face beauty level. default: 0.8f
- *
- * @param beautyLevel the beauty level, range: 0.0f ~ 1.0f
- */
-public void setBeautyLevel(float beautyLevel)
-```
-
-### 回调类
-
-#### UVideoFrameListener
-
-该接口用于回调相机/编辑预览视频相关的事件和数据，方法如下：
+`UVideoFrameListener` 包含了视频处理整个生命周期相关事件的回调，具体定义如下：
 
 ```java
 public interface UVideoFrameListener {
     /**
+     * Called when the surface is created or recreated.
      * To be called in {@link android.opengl.GLSurfaceView.Renderer#onSurfaceCreated(GL10, EGLConfig)} invoked.
      */
-    void onSurfaceCreated();
+    default void onSurfaceCreated() {
+    }
 
     /**
+     * Called when the surface changed size.
      * To be called in {@link android.opengl.GLSurfaceView.Renderer#onSurfaceChanged(GL10, int, int)}.
      *
      * @param width  the width of the surface
      * @param height the height of the surface
      */
-    void onSurfaceChanged(int width, int height);
+    default void onSurfaceChanged(int width, int height) {
+    }
 
     /**
-     * To be called after surface destroyed
+     * Called when the surface destroyed
      */
-    void onSurfaceDestroy();
+    default void onSurfaceDestroyed() {
+    }
 
     /**
      * To be called in {@link android.opengl.GLSurfaceView.Renderer#onDrawFrame(GL10)}.
      *
-     * @param texId           the texture ID of Camera SurfaceTexture object to be rendered.
-     * @param texWidth        width of the drawing surface in pixels.
-     * @param texHeight       height of the drawing surface in pixels.
-     * @param timestampNs     timestamp of this frame in Ns.
-     * @param transformMatrix when NOT specify the callback texture to be OES, it will be Identity matrix.
-     * @return the texture ID of the newly generated texture to be assigned to the SurfaceTexture object.
+     * @param texId     the texture ID to be rendered.
+     * @param texWidth  texture width.
+     * @param texHeight texture height.
+     * @return new texture ID.
      */
-    int onDrawFrame(int texId, int texWidth, int texHeight, long timestampNs, float[] transformMatrix);
+    default int onDrawFrame(int texId, int texWidth, int texHeight) {
+        return texId;
+    }
 }
 ```
 
-#### UAudioFrameListener
+#### 音频帧数据回调
 
-该接口用于回调录制/编辑音频相关的事件和数据，方法如下：
+在录制或者编辑视频时，通过 `setAudioFrameListener` 接口，可以获取到音频的 PCM 原始数据，您可以对音频做相关的处理.
+
+```java
+/**
+ * 设置音频采集相关事件回调
+ *
+ * @param listener 音频采集事件回调，参见 {@link UAudioFrameListener}
+ */
+public UVideoRecordManager setAudioFrameListener(UAudioFrameListener listener)
+```
+
+`UAudioFrameListener` 包含了音频事件和原始数据的回调，具体定义如下：
 
 ```java
 public interface UAudioFrameListener {
     /**
      * To be called when audio frame recording failed
      */
-    void onAudioRecordFailed(int errorCode);
+    default void onAudioRecordFailed(int errorCode) {
+    }
 
     /**
      * To be called when audio frame available
      *
-     * @param data        the pcm data
-     * @param timestampNs the timestamp of the frame in Ns
+     * @param buffer the pcm data
+     * @param size   the pcm data size
+     * @param ptsUs  the timestamp of the frame in us
      */
-    void onAudioFrameAvailable(byte[] data, long timestampNs);
+    default void onAudioFrameAvailable(ByteBuffer buffer, int size, long ptsUs) {
+    }
 }
 ```
 
-#### USaveFileListener
+### API 参考
 
-该接口用于回调保存录制/编辑文件相关的事件，方法如下：
+#### `UShortVideoEnv`
+
+该类提供了设置 SDK 运行时需要的环境变量功能，具体接口如下：
 
 ```java
-public interface USaveFileListener {
     /**
-     * To be called when save video success.
+     * 初始化 SDK 环境.
      *
-     * @param destFile the edited file
+     * @param context 应用上下文
+     * @param sign    鉴权签名字符串, 控制台注册 app 后获取
      */
-    void onSaveFileSuccess(String destFile, UVideoEncodeParam videoEncodeParam);
+    public static void init(Context context, String sign)
 
     /**
-     * To be called when save video failed.
+     * 设置 log 输出等级
      *
-     * @param errorCode the error code
+     * @param level the level，See also {@link ULog#V}/{@link ULog#D}/{@link ULog#I}/{@link ULog#W}/{@link ULog#E}
      */
-    void onSaveFileFailed(int errorCode);
-
-    /**
-     * To be called when save video canceled
-     */
-    void onSaveFileCanceled();
-
-    /**
-     * To be called when save video progress update
-     *
-     * @param percentage
-     */
-    void onSaveFileProgress(float percentage);
-}
+    public static void setLogLevel(int level)
 ```
 
-#### URecordStateListener
+#### `UVideoRecordManager`
 
-该接口用于回调录制过程中相关的事件，方法如下：
+该类提供了视频录制功能，具体接口如下：
 
 ```java
-public interface URecordStateListener {
     /**
-     * To be called when record ready.
-     */
-    void onReady();
-
-    /**
-     * To be called when record error.
-     */
-    void onError(int code);
-
-    /**
-     * To be called when record real start, after encoders started.
-     */
-    void onRecordStarted();
-
-    /**
-     * To be called when record real stop, after encoders stopped.
-     */
-    void onRecordStopped();
-
-    /**
-     * To be called when record clip count changed.
+     * 初始化
      *
-     * @param totalDurationMs the total duration
-     * @param clipCount       the clip count
+     * @param renderView 预览界面
      */
-    void onClipCountChanged(long totalDurationMs, int clipCount);
+    public UVideoRecordManager init(UTextureView renderView)
 
     /**
-     * To be called when record finished.
+     * 设置音视频相关参数
+     *
+     * @param options 参数，参见：{@link UAVOptions}
      */
-    void onRecordFinish();
-}
+    public UVideoRecordManager setAVOptions(UAVOptions options)
+
+    /**
+     * 设置视频渲染相关事件回调
+     *
+     * @param listener 视频渲染事件回调，参见 {@link UVideoFrameListener}
+     */
+    public UVideoRecordManager setVideoFrameListener(UVideoFrameListener listener)
+
+    /**
+     * 设置音频采集相关事件回调
+     *
+     * @param listener 音频采集事件回调，参见 {@link UAudioFrameListener}
+     */
+    public UVideoRecordManager setAudioFrameListener(UAudioFrameListener listener)
+
+    /**
+     * 设置录制事件回调
+     *
+     * @param listener 录制事件回调，参见 {@link URecordListener}
+     */
+    public UVideoRecordManager setRecordListener(URecordListener listener)
+
+    /**
+     * 开始预览
+     */
+    public void startPreview()
+
+    /**
+     * 停止预览
+     */
+    public void stopPreview()
+
+    /**
+     * 释放资源
+     */
+    public void release()
+
+    /**
+     * 是否正在录制
+     */
+    public boolean isRecording()
+
+    /**
+     * 开始录制
+     *
+     * @return 启动录制是否成功
+     */
+    public boolean startRecord()
+
+    /**
+     * 停止录制
+     */
+    public void stopRecord()
+
+    /**
+     * 合并录制片段
+     *
+     * @param outFile  保存录制文件路径
+     * @param listener 保存过程事件回调
+     */
+    public void combineClip(String outFile, UVideoSaveListener listener)
+
+    /**
+     * 删除当前上一个录制片段
+     */
+    public void removeLastClip()
+
+    /**
+     * 删除当前所有录制片段
+     */
+    public void removeAllClips()
+
+    /**
+     * 切换摄像头
+     */
+    public void switchCamera()
+
+    /**
+     * 截取视频帧
+     *
+     * @param callback 通过回调返回视频帧，参见 {@link video.movieous.engine.UBitmapOutputCallback}
+     */
+    public void captureVideoFrame(UBitmapOutputCallback callback)
+
+    /**
+     * 截取视频帧
+     *
+     * @param callback   通过回调返回视频帧，参见 {@link video.movieous.engine.UBitmapOutputCallback}
+     * @param withFilter 是否包含滤镜处理
+     */
+    public void captureVideoFrame(UBitmapOutputCallback callback, boolean withFilter)
+
+    /**
+     * 设置背景音乐
+     *
+     * @param file 背景音乐文件
+     */
+    public void setMusicFile(String file)
+
+    /**
+     * 设置原始音频音量
+     *
+     * @param volume 0 ~ 1
+     */
+    public void setOriginVolume(float volume)
+
+    /**
+     * 设置背景音乐音量
+     *
+     * @param volume 0 ~ 1
+     */
+    public void setMusicVolume(float volume)
+
+    /**
+     * 设置背景音乐开始位置
+     *
+     * @param positionMs 单位：毫秒
+     */
+    public void setMusicPositionMs(int positionMs)
+
+    /**
+     * 获取当前录制片段文件个数
+     */
+    public int getClipCount()
+
+    /**
+     * 获取当前录制片段总的时长，单位：毫秒
+     */
+    public int getClipsDurationMs()
+
+    /**
+     * 设置手动对焦事件监听
+     *
+     * @param listener 对焦事件回调，参见 {@link UCameraFocusListener}
+     */
+    public UVideoRecordManager setFocusListener(UCameraFocusListener listener)
+
+    /**
+     * 手动对焦
+     *
+     * @param x 手动对焦点 x 坐标
+     * @param y 手动对焦点 y 坐标
+     */
+    public void focus(float x, float y)
 ```
 
-#### UVideoPlayListener
+#### `UVideoEditManager`
 
-该接口用于回调视频编辑播放相关的事件，方法如下：
+- 该类提供了视频编辑、剪辑等视频处理功能，具体接口如下：
 
 ```java
-public interface UVideoPlayListener {
     /**
-     * To bo called when play position changed
+     * 初始化视频编辑器
      *
-     * @param position current play position, ms
+     * @param renderView 预览视图
+     * @param inFile     需要编辑的视频文件
+     * @return
      */
-    void onPositionChanged(int position);
+    public UVideoEditManager init(UTextureView renderView, String inFile)
 
     /**
-     * To be called when the end of a media source is reached during playback.
+     * 设置音视频相关参数
+     *
+     * @param options 参数，参见：{@link UAVOptions}
      */
-    void onCompletion();
-}
+    public UVideoEditManager setAVOptions(UAVOptions options)
+
+    /**
+     * 设置视频保存事件回调
+     *
+     * @param listener 视频保存事件回调
+     */
+    public UVideoEditManager setVideoSaveListener(UVideoSaveListener listener)
+
+    /**
+     * 设置视频渲染相关事件回调
+     *
+     * @param listener 视频渲染事件回调，参见 {@link UVideoFrameListener}
+     */
+    public UVideoEditManager setVideoFrameListener(UVideoFrameListener listener)
+
+    /**
+     * 添加文字、图片贴纸
+     *
+     * @param sticker 贴纸对象，参见 {@link USticker}
+     */
+    public UVideoEditManager addSticker(USticker sticker)
+
+    /**
+     * 删除贴纸
+     *
+     * @param sticker 贴纸对象
+     */
+    public void removeSticker(USticker sticker)
+
+    /**
+     * 开始视频播放
+     */
+    public void start()
+
+    /**
+     * 结束视频播放
+     */
+    public void stop()
+
+    /**
+     * 恢复视频播放
+     */
+    public void resume()
+
+    /**
+     * 暂停视频播放
+     */
+    public void pause()
+
+    /**
+     * 释放视频编辑器资源
+     */
+    public void release()
+
+    /**
+     * 快进到指定位置
+     *
+     * @param timeMs 毫秒
+     */
+    public void seekTo(int timeMs)
+
+    /**
+     * 是否正在播放
+     */
+    public boolean isPlaying()
+
+    /**
+     * 是否正在录制当前播放画面
+     */
+    public boolean isRecording()
+
+    /**
+     * 开始当前播放画面录制
+     */
+    public boolean startRecord()
+
+    /**
+     * 结束当前播放画面录制
+     */
+    public void stopRecord()
+
+    /**
+     * 将当前录制片段合并成一个 mp4 文件
+     *
+     * @param outFile  保存文件路径
+     * @param listener 保存事件监听
+     */
+    public void combineClip(String outFile, UVideoSaveListener listener)
+
+    /**
+     * 获取当前播放进度，单位：毫秒
+     */
+    public int getCurrentPosition()
+
+    /**
+     * 文件转码，转码参数通过 {@link UVideoEditManager#setAVOptions(UAVOptions)} 设置
+     *
+     * @param outFile 输出文件路径
+     */
+    public UVideoEditManager transcode(String outFile)
+
+    /**
+     * 文件转码，转码参数通过 {@link UVideoEditManager#setAVOptions(UAVOptions)} 设置
+     *
+     * @param outFile  输出文件路径
+     * @param trimTime 转码文件截取时间段
+     */
+    public UVideoEditManager transcode(String outFile, UMediaTrimTime trimTime)
+
+    /**
+     * 保存当前视频文件编辑结果
+     *
+     * @param outFile 输出文件路径
+     */
+    public void save(String outFile)
+
+    /**
+     * 保存当前视频文件编辑结果
+     *
+     * @param outFile  输出文件路径
+     * @param listener 保存事件监听
+     */
+    public void save(String outFile, UVideoFrameListener listener)
+
+    /**
+     * 取消保存或转码操作
+     */
+    public void cancelSave()
+
+    /**
+     * 截取视频帧
+     *
+     * @param callback 通过回调返回视频帧，参见 {@link video.movieous.engine.UBitmapOutputCallback}
+     */
+    public void captureVideoFrame(UBitmapOutputCallback callback)
+
+    /**
+     * 截取视频帧
+     *
+     * @param callback   通过回调返回视频帧，参见 {@link video.movieous.engine.UBitmapOutputCallback}
+     * @param withFilter 是否包含滤镜处理
+     */
+    public void captureVideoFrame(UBitmapOutputCallback callback, boolean withFilter)
+
+    public UVideoEditManager setMusicFile(String file)
+
+    /**
+     * 同时设置视频文件和背景音乐音量
+     *
+     * @param originVolume 视频文件音量
+     * @param musicVolume  背景音乐音量
+     */
+    public void setVolume(float originVolume, float musicVolume)
+
+    /**
+     * 设置视频文件音量
+     *
+     * @param volume 0 ~ 1
+     */
+    public void setOriginVolume(float volume)
+
+    /**
+     * 设置背景音乐音量
+     *
+     * @param volume 0 ~ 1
+     */
+    public void setMusicVolume(float volume)
+
+    /**
+     * 设置背景音乐开始位置
+     *
+     * @param positionMs 单位：毫秒
+     */
+    public void setMusicPositionMs(int positionMs)
+
+    /**
+     * 设置视频播放事件监听
+     *
+     * @param listener 播放事件监听
+     */
+    public UVideoEditManager setVideoPlayerListener(UVideoPlayListener listener)
+
+    /**
+     * 设置视频播放事件监听
+     *
+     * @param listener       播放事件监听
+     * @param callbackPeriod 播放进度回调间隔，单位：毫秒，默认 1000 毫秒回调一次
+     */
+    public UVideoEditManager setVideoPlayerListener(UVideoPlayListener listener, int callbackPeriod)
+
+    /**
+     * 设置视频剪辑时间段
+     *
+     * @param trimTime 剪辑时间段
+     */
+    public void setTrimTime(UMediaTrimTime trimTime)
 ```
 
-#### UCameraFocusListener
+> 说明：保存编辑文件包含两种模式：<p>
+> 1、`save` 接口，离屏保存视频，保存的视频处理操作和当前预览的视频处理操作是分开的，速度更快；<p>
+> 2、`startRecord` 和 `stopRecord` 接口，直接录制当前预览画面显示的内容，可以分别摘取多个片段，然后进行合成保存，适用于边看边录制的模式.
 
-该接口用于回调 Camera 对焦相关的事件，方法如下：
+#### `UImageEditManager`
+
+该类提供了图片合成视频以及相应的转场特效功能，具体接口如下：
 
 ```java
-public interface UCameraFocusListener {
     /**
-     * To bo called whether manual focus start success or not.
+     * 初始化图片合成器
      */
-    void onManualFocusStart(boolean result);
+    public void init(Context context, UImageRenderView renderView)
 
     /**
-     * To bo called whether manual focus stop success or not.
+     * 设置图片文件路径列表, 设置后，自动开始预览播放
+     *
+     * @param imageList 文件列表
      */
-    void onManualFocusStop(boolean result);
+    public void setImageList(List<String> imageList)
 
     /**
-     * To be called when ongoing manual focus canceled, because another manual focus triggered.
+     * 暂停预览播放
      */
-    void onManualFocusCancel();
+    public void pause()
 
     /**
-     * To be called when continuous auto focus start, only trigger when selected focus mode as FOCUS_MODE_CONTINUOUS_VIDEO or FOCUS_MODE_CONTINUOUS_PICTURE
+     * 恢复预览播放
      */
-    void onAutoFocusStart();
+    public void resume()
 
     /**
-     * To be called when continuous auto focus stop, only trigger when selected focus mode as FOCUS_MODE_CONTINUOUS_VIDEO or FOCUS_MODE_CONTINUOUS_PICTURE
+     * 设置背景音乐
+     *
+     * @param musicFile 音乐文件路径
      */
-    void onAutoFocusStop();
-}
+    public void setMusic(String musicFile)
+
+    /**
+     * 设置转场特效
+     *
+     * @param type 特效类别，参见 {@link UPhotoMovieType}
+     */
+    public void changeTransfer(UPhotoMovieType type)
+
+    /**
+     * 保存预览结果
+     *
+     * @param listener 保存事件监听
+     */
+    public void saveVideo(UVideoSaveListener listener)
+```
+
+#### `UViewRecordManager`
+
+该类提供了录制指定区域视图的功能，具体接口如下：
+
+```java
+    /**
+     * 初始化 view 录制对象
+     *
+     * @param renderView 渲染对象
+     */
+    public UViewRecordManager init(UTextureView renderView)
+
+    /**
+     * 设置输出文件路径
+     */
+    public void setRecordFile(String outFile)
+
+    /**
+     * 设置录制 LinearLayout 容器
+     */
+    public void setRecordView(ULinearLayout recordView)
+
+    /**
+     * 设置录制 RelativeLayout 容器
+     */
+    public void setRecordView(URelativeLayout recordView)
+
+    /**
+     * 设置音视频相关参数
+     *
+     * @param options 参数，参见：{@link UAVOptions}
+     */
+    public UViewRecordManager setAVOptions(UAVOptions options)
+
+    /**
+     * 设置视频渲染相关事件回调
+     *
+     * @param listener 视频渲染事件回调，参见 {@link UVideoFrameListener}
+     */
+    public UViewRecordManager setVideoFrameListener(UVideoFrameListener listener)
+
+    /**
+     * 设置音频采集相关事件回调
+     *
+     * @param listener 音频采集事件回调，参见 {@link UAudioFrameListener}
+     */
+    public UViewRecordManager setAudioFrameListener(UAudioFrameListener listener)
+
+    /**
+     * 设置录制事件回调
+     *
+     * @param listener 录制事件回调，参见 {@link URecordListener}
+     */
+    public UViewRecordManager setRecordListener(URecordListener listener)
+
+    /**
+     * 释放资源
+     */
+    public void release()
+
+    /**
+     * 是否正在录制
+     */
+    public boolean isRecording()
+
+    /**
+     * 开始录制片段
+     */
+    public boolean startRecord()
+
+    /**
+     * 结束录制片段
+     */
+    public void stopRecord()
+
+    /**
+     * 合成录制片段
+     *
+     * @param outFile  输出文件
+     * @param listener 保存事件监听
+     */
+    public void combineClip(String outFile, UVideoSaveListener listener)
+
+    /**
+     * 回删最近录制片段
+     */
+    public void removeLastClip()
+
+    /**
+     * 删除所有录制片段
+     */
+    public void removeAllClips()
+
+    /**
+     * 截取视频帧
+     *
+     * @param callback 通过回调返回视频帧，参见 {@link video.movieous.engine.UBitmapOutputCallback}
+     */
+    public void captureVideoFrame(UBitmapOutputCallback callback)
+
+    /**
+     * 截取视频帧
+     *
+     * @param callback   通过回调返回视频帧，参见 {@link video.movieous.engine.UBitmapOutputCallback}
+     * @param withFilter 是否包含滤镜处理
+     */
+    public void captureVideoFrame(UBitmapOutputCallback callback, boolean withFilter)
+
+    /**
+     * 设置背景音乐
+     *
+     * @param file 背景音乐文件
+     */
+    public void setMusicFile(String file)
+
+    /**
+     * 设置原始音频音量
+     *
+     * @param volume 0 ~ 1
+     */
+    public void setOriginVolume(float volume)
+
+    /**
+     * 设置背景音乐音量
+     *
+     * @param volume 0 ~ 1
+     */
+    public void setMusicVolume(float volume)
+
+    /**
+     * 设置背景音乐开始位置
+     *
+     * @param positionMs 单位：毫秒
+     */
+    public void setMusicPositionMs(int positionMs)
+
+    /**
+     * 获取当前录制片段文件个数
+     */
+    public int getClipCount()
+
+    /**
+     * 获取当前录制片段总的时长，单位：毫秒
+     */
+    public int getClipsDurationMs()
+```
+
+#### `UMultiVideoRecordManager`
+
+该类提供了视频合拍功能，具体接口如下：
+
+```java
+    /**
+     * 设置合拍文件
+     *
+     * @param videoFile 合拍视频文件路径
+     */
+    public void setVideoFile(String videoFile)
+```
+
+其它接口与 `UVideoRecordManager` 接口相同
+
+#### `UMediaUtil`
+
+提取媒体文件信息辅助类，具体接口如下：
+
+```java
+    /**
+     * 获取指定文件元信息
+     *
+     * @param input 媒体文件
+     * @return 媒体信息，参见 {@link MediaUtil.Metadata}
+     */
+    public static MediaUtil.Metadata getMetadata(String input)
+
+    /**
+     * 异步方式获取视频文件指定范围的缩略图
+     *
+     * @param videoUri 视频文件路径
+     * @param count    缩略图个数
+     * @param begin    开始时间
+     * @param end      结束时间
+     * @param width    图片宽度
+     * @param height   图片高度
+     * @param callback 图片回调，参见：{@link SingleCallback<Bitmap, Long>}, 参数分别为图片和当前时间戳
+     */
+    public static void getVideoThumb(final Uri videoUri, final int count, final long begin, final long end, final int width, final int height, final SingleCallback callback)
+```
+
+#### `UAVOptions`
+
+音视频输出参数设置类，具体参数及接口定义如下：
+
+```java
+    /**
+     * 视频图像宽度
+     * 通过 setInteger 接口设置
+     */
+    public static final String KEY_VIDEO_WIDTH = "video-width";
+
+    /**
+     * 视频图像高度
+     * 通过 setInteger 接口设置
+     */
+    public static final String KEY_VIDEO_HEIGHT = "video-height";
+
+    /**
+     * 视频帧率
+     * 通过 setInteger 接口设置
+     */
+    public static final String KEY_VIDEO_FPS = "video-fps";
+
+    /**
+     * 视频编码码率
+     * 通过 setInteger 接口设置
+     */
+    public static final String KEY_VIDEO_BITRATE = "video-bitrate";
+
+    /**
+     * 视频编码关键帧间隔
+     * 通过 setInteger 接口设置
+     */
+    public static final String KEY_VIDEO_KEYFRAME_INTERVAL = "video-keyframe-interval";
+
+    /**
+     * 视频编码模式
+     * 通过 setInteger 接口设置，参数为 BitrateMode 枚举值的索引
+     */
+    public static final String KEY_VIDEO_BITRATE_MODE = "video-bitrate-mode";
+
+    /**
+     * 视频编码 profile 等级
+     * 通过 setInteger 接口设置，参数为 H264Profile 枚举值的索引
+     */
+    public static final String KEY_VIDEO_PROFILE = "video-profile";
+
+    /**
+     * 音频设备输入源: {@link android.media.MediaRecorder.AudioSource}
+     * 通过 setInteger 接口设置，参数为 MediaRecorder.AudioSource 下定义的音频源
+     */
+    public static final String KEY_AUDIO_SOURCE = "audio-source";
+
+    /**
+     * 音频采样率, 44100 ... etc
+     * 通过 setInteger 接口设置，参数为具体的音频采样率
+     */
+    public static final String KEY_AUDIO_SAMPLE_RATE = "audio-sample-rate";
+
+    /**
+     * 音频通道设置, 参见: {@link android.media.AudioFormat#CHANNEL_IN_MONO}
+     * 通过 setInteger 接口设置，参数为 AudioFormat.CHANNEL_IN_MONO 或者 AudioFormat.CHANNEL_IN_STEREO
+     */
+    public static final String KEY_AUDIO_CHANNEL_CONFIG = "audio-channel-config";
+
+    /**
+     * 音频编码码率, 默认: 96 * 1000
+     * 通过 setInteger 接口设置
+     */
+    public static final String KEY_AUDIO_BITRATE = "audio-bitrate";
+
+    /**
+     * 录制视频片段保存路径，默认 APP 的缓存目录
+     * 通过 setString 接口设置
+     */
+    public static final String KEY_CACHE_DIR = "cache-dir";
+
+    /**
+     * SDK 定义编码尺寸等级, 默认: 480p_16_9
+     * 通过 setInteger 接口设置，参数为 UConstants.VIDEO_RECORD_SIZE_LEVEL 枚举值的索引
+     */
+    public static final String KEY_RECORD_SIZE_LEVEL = "record-size-level";
+
+    /**
+     * 设置整型参数
+     *
+     * @param name  the name
+     * @param value the value
+     */
+    public final UAVOptions setInteger(String name, int value)
+
+    /**
+     * 设置字符型参数.
+     *
+     * @param name  the name
+     * @param value the value
+     */
+    public final UAVOptions setString(String name, String value)
+```
+
+#### `UVideoFrameListener` 视频渲染事件回调
+
+```java
+    /**
+     * 在 surface 被创建或者重新创建时回调
+     * 在 {@link android.opengl.GLSurfaceView.Renderer#onSurfaceCreated(GL10, EGLConfig)} 中调用.
+     */
+    default void onSurfaceCreated() {
+    }
+
+    /**
+     * 在 surface 尺寸发生变化时回调
+     * 在 {@link android.opengl.GLSurfaceView.Renderer#onSurfaceChanged(GL10, int, int)} 中调用
+     *
+     * @param width  surface 宽度
+     * @param height surface 高度
+     */
+    default void onSurfaceChanged(int width, int height) {
+    }
+
+    /**
+     * 在 surface 销毁时回调
+     */
+    default void onSurfaceDestroyed() {
+    }
+
+    /**
+     * 渲染视频帧时回调
+     * 在 {@link android.opengl.GLSurfaceView.Renderer#onDrawFrame(GL10)} 中调用
+     *
+     * @param texId     渲染视频帧的纹理.
+     * @param texWidth  纹理图像宽度.
+     * @param texHeight 纹理图像高度.
+     * @return 经过处理后的视频纹理.
+     */
+    default int onDrawFrame(int texId, int texWidth, int texHeight) {
+        return texId;
+    }
+```
+
+#### `UAudioFrameListener` 音频帧回调接口
+
+```java
+    /**
+     * 音频录制失败时回调
+     * 可能原因：1、用户禁止使用当前音频设备；2、音频设备被占用；3、音频设备不存在；4、其它未知异常
+     */
+    default void onAudioRecordFailed(int errorCode) {
+    }
+
+    /**
+     * 成功获取到音频帧时回调
+     *
+     * @param buffer 音频 pcm 数据
+     * @param size   音频 pcm 数据尺寸
+     * @param ptsUs  时间戳，单位：微秒
+     */
+    default void onAudioFrameAvailable(ByteBuffer buffer, int size, long ptsUs) {
+    }
+```
+
+#### `URecordListener` 录制事件回调
+
+```java
+    /**
+     * 调用startRecord后回调
+     */
+    default void onRecordStart() {
+    }
+
+    /**
+     * 调用stopRecord后回调
+     */
+    default void onRecordStop() {
+    }
+
+    /**
+     * 录制完成后回调
+     */
+    default void onRecordFinish(String path, long durationMs) {
+    }
+
+    /**
+     * 当前录制中视频片段发生变化时回调
+     *
+     * @param totalDurationMs 总的录制时长，单位：毫秒
+     * @param clipCount       视频片段文件个数
+     */
+    default void onClipChanged(long totalDurationMs, int clipCount) {
+    }
+```
+
+#### `UVideoSaveListener` 保存视频事件回调
+
+```java
+    /**
+     * 当前进度
+     *
+     * @param progress 范围 [0.0, 1.0], 如果进度未知，则为负值
+     */
+    default void onVideoSaveProgress(float progress) {
+    }
+
+    /**
+     * 保存视频成功回调
+     */
+    default void onVideoSaveSuccess(String path) {
+    }
+
+    /**
+     * 取消保存回调
+     */
+    default void onVideoSaveCancel() {
+    }
+
+    /**
+     * 保存失败回调
+     */
+    default void onVideoSaveFail(int errorCode) {
+    }
+```
+
+#### `UVideoPlayListener` 视频播放事件回调
+
+```java
+    /**
+     * 播放器准备就绪回调
+     */
+    default void onPrepared() {
+    }
+
+    /**
+     * 播放完成回调
+     */
+    default void onCompletion() {
+    }
+
+    /**
+     * 当前播放进度回调, 回调间隔默认为 1 秒，用户可以修改该回调间隔
+     *
+     * @param position 播放进度, 单位：毫秒
+     */
+    default void onPositionChanged(int position) {
+    }
 ```
 
 ### 自定义对象
+
+#### 自定义渲染 VIEW
+
+- `UTextureView` 继承自 `TextureView`，`USurfaceView` 继承自 `SurfaceView`, 都可以作为录制和编辑处理视频的渲染视图。由于 `TextureView` 可以作为普通视图对待，所以，推荐用 `UTextureView` 作为渲染预览视图。
+
+- 通过 `UFitViewHelper` 可以设置渲染视图的缩放规则和旋转角度等信息，具体定义如下：
+
+```java
+   public enum ScaleType {
+        FIT_CENTER, // 居中显示全部画面，上下或者左右可能留黑
+        FIT_WIDTH,  // 填满宽度
+        FIT_HEIGHT, // 填满高度
+        CENTER_CROP // 居中裁剪铺满画面
+    }
+
+    /**
+     * 设置缩放规则
+     *
+     * @param scaleType 缩放规则, 默认：居中显示全部画面, ScaleType.FIT_CENTER
+     */
+    public void setScaleType(ScaleType scaleType)
+
+    /**
+     * 设置宽高比及最大宽度最大高度
+     * maxWidth 和 maxHeight 有一个设置为0时表示 MatchParent
+     *
+     * @param ratio     宽高比
+     * @param maxWidth  最大宽度
+     * @param maxHeight 最大高度
+     * @return 是否应该调用requestLayout刷新视图
+     */
+    public boolean setAspectRatio(float ratio, int maxWidth, int maxHeight)
+
+    /**
+     * 设置顺时针旋转90度的次数
+     * 取值-3~0，0~3，表示旋转-270~0，0~270度
+     *
+     * @param numOfTimes 旋转次数
+     * @return 是否应该调用requestLayout刷新视图
+     */
+    public boolean setRotate90Degrees(int numOfTimes)
+```
+
+#### UConstants
+
+```java
+   /**
+     * The enum h.264 profile mode
+     */
+    public enum H264Profile {
+        BASELINE,
+        MAIN,
+        HIGH
+    }
+
+    /**
+     * The enum bitrate mode
+     */
+    public enum BitrateMode {
+        /**
+         * In order to improve the video quality, the real bitrate maybe higher than the requests.
+         **/
+        QUALITY_PRIORITY,
+
+        /**
+         * In order to control the request bitrate accurately, the video quality maybe not good.
+         **/
+        BITRATE_PRIORITY,
+    }
+
+    /**
+     * The enum video record size level
+     */
+    public enum VIDEO_RECORD_SIZE_LEVEL {
+        /**
+         * 240x240
+         */
+        SIZE_240P_1_1,
+        /**
+         * 320x240
+         */
+        SIZE_240P_4_3,
+        /**
+         * 352x352
+         */
+        SIZE_352P_1_1,
+        /**
+         * 640x352
+         */
+        SIZE_352P_16_9,
+        /**
+         * 360x360
+         */
+        SIZE_360P_1_1,
+        /**
+         * 480x360
+         */
+        SIZE_360P_4_3,
+        /**
+         * 640x360
+         */
+        SIZE_360P_16_9,
+        /**
+         * 480x480
+         */
+        SIZE_480P_1_1,
+        /**
+         * 640x480
+         */
+        SIZE_480P_4_3,
+        /**
+         * 848x480
+         */
+        SIZE_480P_16_9,
+        /**
+         * 544x544
+         */
+        SIZE_544P_1_1,
+        /**
+         * 720x544
+         */
+        SIZE_544P_4_3,
+        /**
+         * 720x720
+         */
+        SIZE_720P_1_1,
+        /**
+         * 960x720
+         */
+        SIZE_720P_4_3,
+        /**
+         * 1280x720
+         */
+        SIZE_720P_16_9,
+        /**
+         * 1088x1088
+         */
+        SIZE_1080P_1_1,
+        /**
+         * 1440x1088
+         */
+        SIZE_1080P_4_3,
+        /**
+         * 1920x1088
+         */
+        SIZE_1080P_16_9,
+    }
+
+    public static final int[][] VIDEO_ENCODE_SIZE = {
+            {240, 240},
+            {320, 240},
+            {352, 352},
+            {640, 352},
+            {360, 360},
+            {480, 360},
+            {640, 360},
+            {480, 480},
+            {640, 480},
+            {848, 480},
+            {544, 544},
+            {720, 544},
+            {720, 720},
+            {960, 720},
+            {1280, 720},
+            {1088, 1088},
+            {1440, 1088},
+            {1920, 1088}
+    };
+
+    /**
+     * The enum Camera facing id.
+     */
+    public enum CAMERA_FACING_ID {
+        /**
+         * back camera facing id.
+         */
+        BACK,
+        /**
+         * front camera facing id.
+         */
+        FRONT,
+        /**
+         * 3rd camera facing id.
+         */
+        THIRD
+    }
+
+    /**
+     * The enum Camera preview size ratio.
+     */
+    public enum CAMERA_PREVIEW_SIZE_RATIO {
+        /**
+         * Ratio 4:3
+         */
+        RATIO_4_3,
+        /**
+         * Ratio 16:9
+         */
+        RATIO_16_9
+    }
+
+    /**
+     * The enum Camera preview size level.
+     */
+    public enum CAMERA_PREVIEW_SIZE_LEVEL {
+        /**
+         * 120P
+         */
+        SIZE_120P,
+        /**
+         * 240P
+         */
+        SIZE_240P,
+        /**
+         * 360P
+         */
+        SIZE_360P,
+        /**
+         * 480P
+         */
+        SIZE_480P,
+        /**
+         * 720P
+         */
+        SIZE_720P,
+        /**
+         * 960P
+         */
+        SIZE_960P,
+        /**
+         * 1080P
+         */
+        SIZE_1080P,
+        /**
+         * 1200P
+         */
+        SIZE_1200P,
+    }
+
+    public static final int[] PREVIEW_SIZE_LEVEL = {
+            120, 240, 360, 480, 720, 960, 1080, 1200
+    };
+```
 
 #### UErrorCode
 
