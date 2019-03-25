@@ -2,6 +2,20 @@
 
 ## 发版说明
 
+### v2.0.3 (2018-03-25)
+
+- 2.0.3
+  - 发布 ushortvideo-2.0.3.jar
+  - 增加屏幕录制功能
+  - 增加涂鸦功能
+  - Demo 中增加 SENSETIME 特效演示
+
+### v2.0.2 (2018-03-18)
+
+- 2.0.2
+  - 发布 ushortvideo-2.0.2.jar
+  - 增加 MV 特效接口
+
 ### v2.0.1 (2018-03-08)
 
 - 2.0.1
@@ -63,7 +77,7 @@ SDK 主要包含 jar 文件和 native 动态库，具体说明如下：
 
 | 文件名称                           | 功能      | 大小    | 备注          |
 | ------------------------------ | ------- | ----- | ----------- |
-| ushortvideo-x.x.x.jar          | 核心库     | 388KB | 必须依赖        |
+| ushortvideo-x.x.x.jar          | 核心库     | 418KB | 必须依赖        |
 | libuaudio_converter.so         | 音频模块   | 387KB | 不使用混音功能可以去掉 |
 
 ### 添加依赖
@@ -478,6 +492,89 @@ public interface UAudioFrameListener {
 }
 ```
 
+#### 添加文字贴纸
+
+在编辑视频时，可以通过以下接口添加文字：
+
+```java
+    mTextSticker = new USticker();
+    String stickerText = "这是一个美丽的传说";
+    int stickerW = mVideoWidth / 2;
+    int stickerH = stickerW / stickerText.length();
+    mTextSticker.init(USticker.StickerType.TEXT, stickerW, stickerH)
+            .setText(stickerText, Color.RED)
+            .setDuration(0, (int) UMediaUtil.getMetadata(mVideoFile).duration)
+            .setPosition(mVideoWidth / 2 - stickerW / 2, mVideoHeight - stickerH - 20);     //视频图像的左上角为坐标原点
+    mVideoEditManager.addSticker(mTextSticker);
+```
+
+删除文字贴纸
+
+```java
+    mVideoEditManager.removeSticker(mTextSticker);
+```
+
+#### 涂鸦功能
+
+在编辑视频时，可以通过以下接口添加涂鸦视图：
+
+```java
+    mPaintView = new UPaintView(this, mRenderView.getWidth(), mRenderView.getHeight());
+    mVideoEditManager.addPaintView(mPaintView);
+```
+
+删除涂鸦视图
+
+```java
+    mVideoEditManager.removePaintView(mPaintView);
+```
+
+回删上一步涂鸦操作
+
+```java
+    mPaintView.undo();
+```
+
+清空涂鸦视图
+
+```java
+    mPaintView.clear();
+```
+
+#### 屏幕录制
+
+初始化屏幕录制对象
+
+```java
+    mScreenRecordManager = new UScreenRecordManager();
+    mScreenRecordManager.setRecordStateListener(this);
+    mScreenRecordManager.init(this, OUTPUT_FILE, new UAVOptions());
+```
+
+屏幕录制需要通过用户授权，调用 `requestScreenRecord` 接口，申请屏幕录制
+
+```java
+    mScreenRecordManager.requestScreenRecord();
+```
+
+调用上述接口后，会弹出申请屏幕录制窗口，用户授权后，会通过 `onActivityResult` 接口回调用户操作结果，调用下面接口，把授权结果返回 SDK：
+
+```java
+    boolean isOk = mScreenRecordManager.onActivityResult(requestCode, resultCode, data);
+```
+
+该接口返回  `true`，表示用户同意开始屏幕录制，调用 `startRecord` 接口开始录制：
+
+```java
+    mScreenRecordManager.startRecord();
+```
+
+录制完成后，调用 `stopRecord` 接口停止屏幕录制：
+
+```java
+    mScreenRecordManager.stopRecord();
+```
+
 ### API 参考
 
 #### `UShortVideoEnv`
@@ -881,6 +978,32 @@ public interface UAudioFrameListener {
      * @param trimTime 剪辑时间段
      */
     public void setTrimTime(UMediaTrimTime trimTime)
+
+    /**
+     * 添加 MV 特效视频文件
+     *
+     * @param mvFile   mv file
+     * @param maskFile mask file for alpha channel
+     */
+    public void setOverlayVideoFile(String mvFile, String maskFile)
+
+    /**
+     * 添加涂鸦
+     */
+    public void addPaintView(UPaintView paintView)
+
+    /**
+     * 删除涂鸦
+     */
+    public void removePaintView(UPaintView paintView)
+
+    /**
+     * 设置获取当前纹理输出 buffer
+     * 说明：该接口会增加耗时，如无需要，请不有调用该接口
+     *
+     * @param buffer
+     */
+    public void setOutputBuffer(ByteBuffer buffer)
 ```
 
 > 说明：保存编辑文件包含两种模式：<p>
@@ -1369,6 +1492,158 @@ public interface UAudioFrameListener {
      */
     default void onPositionChanged(int position) {
     }
+```
+
+#### `USticker` 文字、图片贴纸类
+
+```java
+    /**
+     * 初始化贴纸对象，必须在实例化后第一个调用
+     *
+     * @param stickerType 贴纸类型，文字、图片...etc
+     * @param width       贴纸宽度，不能超过视频宽度
+     * @param height      贴纸高度，不能超过视频高度
+     */
+    public USticker init(StickerType stickerType, int width, int height)
+
+    /**
+     * 开始合成贴纸
+     */
+    public void start()
+
+    /**
+     * 停止合成贴纸
+     */
+    public void pause()
+
+    /**
+     * 设置贴纸位置, 视频图像的左上角为坐标原点
+     */
+    public USticker setPosition(int x, int y)
+
+    /**
+     * 设置贴纸角度
+     *
+     * @param angle
+     */
+    public USticker setAngle(int angle)
+
+    /**
+     * 设置贴纸开始时间
+     */
+    public USticker setDuration(int beginTimeMs, int durationMs)
+
+    /**
+     * 设置文字贴纸
+     *
+     * @param text      文字内容
+     * @param textColor 文字颜色
+     */
+    public USticker setText(String text, int textColor)
+
+     /**
+     * 设置文字贴纸
+     *
+     * @param text      文字内容
+     * @param textPaint 自定义文字样式
+     */
+    public USticker setText(String text, TextPaint textPaint)
+
+    /**
+     * 设置图片贴纸
+     *
+     * @param bitmap 图片，保持图片尺寸
+     */
+    public USticker setImage(Bitmap bitmap)
+
+    /**
+     * 设置图片贴纸
+     *
+     * @param bitmap 图片
+     * @param width  宽度
+     * @param height 高度
+     * @return
+     */
+    public USticker setImage(Bitmap bitmap, int width, int height)
+```
+
+#### `UPaintView` 涂鸦视图
+
+```java
+    /**
+     * 设置画笔颜色.
+     *
+     * @param color the color of paint.
+     */
+    public void setPaintColor(int color) {
+        super.setPaintColor(color);
+    }
+
+    /**
+     * 设置画笔尺寸
+     *
+     * @param size the size of paint.
+     */
+    public void setPaintSize(int size) {
+        super.setPaintSize(size);
+    }
+
+    /**
+     * 自定义画笔参数
+     *
+     * @param paint the custom paint.
+     */
+    public void setPaint(Paint paint) {
+        super.setPaint(paint);
+    }
+
+    /**
+     * 回删上一步涂鸦操作
+     */
+    public void undo() {
+        super.undo();
+    }
+
+    /**
+     * 清除所有涂鸦操作
+     */
+    public void clear() {
+        super.clear();
+    }
+```
+
+#### `UScreenRecordManager` 屏幕录制
+
+```java
+   /**
+     * 初始化
+     */
+    public void init(Activity activity, String outputFile, UAVOptions options)
+
+    /**
+     * 设置录制过程事件回调
+     */
+    public void setRecordStateListener(URecordListener stateListener)
+
+    /**
+     * 请求屏幕录制权限
+     */
+    public void requestScreenRecord()
+
+    /**
+     * 获取授权结果
+     */
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data)
+
+    /**
+     * 开始录制
+     */
+    public void startRecord()
+
+    /**
+     * 结束录制
+     */
+    public void stopRecord()
 ```
 
 ### 自定义对象
