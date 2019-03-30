@@ -2,6 +2,18 @@
 
 ## 发版说明
 
+### v2.0.4 (2018-03-29)
+
+- 2.0.4
+  - 发布 ushortvideo-2.0.4.jar
+  - 更新 libuaudio_converter.so
+  - 增加视频画面裁剪接口
+  - 增加 fastStartMp4 接口，加快在线播放开播速度
+  - Movieous Demo 中增加自定义音视频参数的演示
+  - 修复某些手机图片合成方向不正确 bug
+  - 修复保存编辑视频时，自定义画面尺寸无效 bug
+  - 修复保存编辑视频时，可能没有相关回调的 bug
+
 ### v2.0.3 (2018-03-25)
 
 - 2.0.3
@@ -1004,6 +1016,21 @@ public interface UAudioFrameListener {
      * @param buffer
      */
     public void setOutputBuffer(ByteBuffer buffer)
+
+    /**
+     * 视频画面裁剪
+     *
+     * @param x      视频 x 坐标，左上角为坐标原点
+     * @param y      视频 y 坐标，左上角为坐标原点
+     * @param width  裁剪图像宽度
+     * @param height 裁剪图像宽度
+     */
+    public void setCropRegion(int x, int y, int width, int height)
+
+    /**
+     * 撤销画面裁剪
+     */
+    public void undoCropRegion()
 ```
 
 > 说明：保存编辑文件包含两种模式：<p>
@@ -1246,6 +1273,15 @@ public interface UAudioFrameListener {
      * @param callback 图片回调，参见：{@link SingleCallback<Bitmap, Long>}, 参数分别为图片和当前时间戳
      */
     public static void getVideoThumb(final Uri videoUri, final int count, final long begin, final long end, final int width, final int height, final SingleCallback callback)
+
+    /**
+     * 在线播放时，把 moov 移动到文件开始，加快开始播放速度
+     *
+     * @param inFile
+     * @param outFile
+     * @return 0：执行成功，其他：错误码
+     */
+    public static int fastStartMp4(String inFile, String outFile)
 ```
 
 #### `UAVOptions`
