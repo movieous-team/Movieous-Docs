@@ -2,6 +2,15 @@
 
 ## 发版说明
 
+### v2.0.5 (2018-04-09)
+
+- 2.0.5
+  - 发布 ushortvideo-2.0.5.jar
+  - 增加图片编辑功能
+  - 增加相机闪光灯接口
+  - 增加相机变焦接口
+  - 相芯特效库升级到 v6.0
+
 ### v2.0.4 (2018-03-29)
 
 - 2.0.4
@@ -772,6 +781,31 @@ public interface UAudioFrameListener {
      * @param y 手动对焦点 y 坐标
      */
     public void focus(float x, float y)
+
+    /**
+     * 是否支持变焦
+     */
+    public boolean isCameraZoomSupported()
+
+    /**
+     * 设置 Camera 缩放比例
+     *
+     * @param zoom 0: 不进行缩放，范围 0 - 100
+     */
+    public void setCameraZoom(int zoom)
+
+    /**
+     * 是否支持闪光灯操作
+     */
+    public boolean isCameraFlashSupported()
+
+    /**
+     * 打开/关闭闪光灯
+     *
+     * @param lightOn true: 打开闪光灯 false：关闭闪光灯
+     * @return 操作是否成功
+     */
+    public boolean setCameraFlashMode(boolean lightOn)
 ```
 
 #### `UVideoEditManager`
@@ -1680,6 +1714,88 @@ public interface UAudioFrameListener {
      * 结束录制
      */
     public void stopRecord()
+```
+
+#### `UImageEditManager` 图片编辑
+
+```java
+    /**
+     * 初始化
+     *
+     * @param preview 图片预览画面
+     * @return
+     */
+    public UImageEditManager init(UTextureView preview)
+
+    /**
+     * 设置图片
+     *
+     * @param bitmap 图片
+     * @return
+     */
+    public UImageEditManager setBitmap(Bitmap bitmap)
+
+    /**
+     * 设置图片文件
+     *
+     * @param filePath 图片文件路径
+     * @return
+     */
+    public UImageEditManager setFilePath(String filePath)
+
+    /**
+     * 设置图片文件, 同时指定图片输出尺寸
+     *
+     * @param filePath 图片文件路径
+     * @param width    指定图片宽度
+     * @param height   指定图片高度
+     * @return
+     */
+    public UImageEditManager setFilePath(String filePath, int width, int height)
+
+    /**
+     * 设置图片纹理数据回调
+     *
+     * @param listener
+     * @return
+     */
+    public UImageEditManager setVideoFrameListener(UVideoFrameListener listener)
+
+    /**
+     * 保存图片
+     *
+     * @param callback 返回处理后 Bitmap
+     */
+    public void save(String outFile, UBitmapOutputCallback callback)
+
+    /**
+     * 释放资源，与 init 接口成对调用
+     */
+    public void release()
+
+    /**
+     * 添加文字、图片贴纸
+     *
+     * @param sticker 贴纸对象，参见 {@link USticker}
+     */
+    public UImageEditManager addSticker(USticker sticker)
+
+    /**
+     * 删除贴纸
+     *
+     * @param sticker 贴纸对象
+     */
+    public void removeSticker(USticker sticker)
+
+    /**
+     * 添加涂鸦
+     */
+    public void addPaintView(UPaintView paintView)
+
+    /**
+     * 删除涂鸦
+     */
+    public void removePaintView(UPaintView paintView)
 ```
 
 ### 自定义对象
