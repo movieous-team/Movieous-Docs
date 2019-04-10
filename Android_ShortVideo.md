@@ -805,7 +805,12 @@ public interface UAudioFrameListener {
      * @param lightOn true: 打开闪光灯 false：关闭闪光灯
      * @return 操作是否成功
      */
-    public boolean setCameraFlashMode(boolean lightOn)
+    public boolean turnCameraLight(boolean lightOn)
+
+    /**
+     * 设置拍照和录制时，是否自动开启闪光灯
+     */
+    public UVideoRecordManager setLightOnEnalbed(boolean lightOnEnalbed)
 ```
 
 #### `UVideoEditManager`
