@@ -165,7 +165,6 @@ typedef NS_ENUM(NSInteger, MovieousPlayerDecoderType) {
 ```
 
 ### MovieousPlayerController
-```objectivec
 /**
  * @brief Scaling mode of MovieousPlayer content
  */
