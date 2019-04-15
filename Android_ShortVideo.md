@@ -2,6 +2,16 @@
 
 ## 发版说明
 
+### v2.0.6 (2018-04-15)
+
+- 2.0.6
+  - 发布 ushortvideo-2.0.6.jar
+  - 增加停止录制时，是否清除预览画面参数
+  - 增加自定义录制 cache 目录时，自动检查创建文件目录机制
+  - 增加自动检查创建编辑文件输出目录机制
+  - 修复录制时指定 GOP 无效问题
+  - 修复剪辑时预览画面和用户指定画面不匹配 bug
+
 ### v2.0.5 (2018-04-09)
 
 - 2.0.5
@@ -665,9 +675,16 @@ public interface UAudioFrameListener {
     public void startPreview()
 
     /**
-     * 停止预览
+     * 停止预览，清除当前预览画面
      */
     public void stopPreview()
+
+    /**
+     * 停止预览
+     *
+     * @param clearScreen true: 清除画面 false：保留当前预览画面
+     */
+    public void stopPreview(boolean clearScreen)
 
     /**
      * 释放资源
