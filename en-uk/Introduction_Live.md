@@ -17,33 +17,36 @@ MovieousLive is a one-step RTMP live stream SDK developed by [Movieous](https://
 
 ## Features list
 
-- [x] Audio data collection
-- [x] Audio collection parameter settings
-- [x] Video data collection
-- [x] Video collection parameter settings
-- [x] H.264 Video encoding
-- [x] H.264 Video encoding parameter settings
-- [x] H.264 hardware encoding
-- [x] AAC encoding
-- [x] AAC Audio encoding parameter settings
-- [x] AAC hardware encoding
-- [x] RTMP protocol stream pushing
-- [x] Listen back (listen to your own sound through ear phone)
-- [x] Built-in background music player
-- [x] Mix the microphone with the background music
-- [x] Multiple music effects
-- [x] Customize audio processing
-- [x] Mute
-- [x] Beautify
-- [x] Watermark
-- [x] Mirror 
-- [x] Customize video processing
-- [x] Pure audio or video stream pushing
-- [x] Adative bitrate
-- [x] Dynamic frame rate
-- [x] weak network frame loss optimization
-- [x] Automatically reconnect in Paused or switched network 
-- [x] Pushing picture and Audio from backstage 
+- [x] microphone audio data capture
+- [x] external audio data import
+- [x] camera video data capture
+- [x] UIVIew record
+- [x] external video data import
+- [x] H.264 video hardware encode
+- [x] AAC audio software encode
+- [x] RTMP protocol live streaming
+- [x] video resolution configurable
+- [x] embedded face beautification
+- [x] LUT(look up table) filter
+- [x] image sticker(watermark)
+- [x] external video processing plugin
+- [x] preview and encoded video mirror independently configurable
+- [x] embedded touch to focus
+- [x] torch mode configurable
+- [x] max and min capture frame rate configurable
+- [x] capture resolution configurable
+- [x] front and back camera switch
+- [x] video orientation configurable
+- [x] zoom factor configurable
+- [x] focus and exposure parameters configurable
+- [x] H.264 GOP length configurable
+- [x] H.264 profile level configurable
+- [x] mute
+- [x] audio and video bitrate configurable
+- [x] statistics for live streaming status
+- [x] pure audio streaming
+- [x] pure video streaming
+- [x] generate snapshot
 
 ## Outstanding Features
 

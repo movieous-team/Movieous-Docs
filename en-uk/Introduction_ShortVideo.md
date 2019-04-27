@@ -1,6 +1,6 @@
 ## Project Description
 
-`Movieous short video SDK` is a one-step video production SDK developed by [Movieous](https://movieous.cn/), which provides a concise  and flexible API , features includes recording, editing, uploading, filter function, effects function, background music,etc. `Movieous short video SDK` with superior model and version compatibility and extreme performance, rich features and numerous tripartite ecological support. Integrated `Movieous short video SDK` enables developers to quickly generate an excellent mobile short video app.
+`MovieousShortVideo` is a one-stop short video composition SDK developed by [Movieous](http://movieous.video), which provide easy-to-use API, compatibility for multiple devices and OS versions, it provides high performance, abundant features and support for third-party SDK including face-beaty, special-effects and sound-distortion, etc. developers can build an excellent video composition app use `MovieousShortVideo` SDK.
 
 ## Usage scenarios
 
@@ -11,51 +11,8 @@
 
 ## Features list
 
-| Function                          | Version       | Comments       |
-| ---------------------------- | -------- | -------------- |
-| Camera acquisition                        | 1.0.0(+) | No |
-| Microphone acquisition                        | 1.0.0(+) | No |
-| Mute function                         | 1.0.0(+) | No |
-| Pure audio recording                        | 1.0.0(+) | No |
-| Manual focus                         | 1.0.0(+) | No |
-| Auto focus                         | 1.0.0(+) | No |
-| Exposure adjustment                         | 1.0.0(+) | No |
-| Flash switch                        | 1.0.0(+) | No |
-| Horizontal screen shooting                         | 1.0.0(+) | No |
-| Variable speed shooting                         | 1.0.0(+) | No |
-| Customized shooting time                      | 1.0.0(+) | No |
-| Customized resolution                     | 1.0.0(+) | No |
-| Customized video frame rate                      | 1.0.0(+) | No |
-| Customized video bitrate                      | 1.0.0(+) | No |
-| Support recording size as 1:1                | 1.0.0(+) | No |
-| Segment recording                         | 1.0.0(+) | No |
-| Delete video                        | 1.0.0(+) | No |
-| H.264 Hardware encoding                     | 1.0.0(+) | No |
-| AAC Hardware encoding                      | 1.0.0(+) | No |
-| Video stitching                         | 1.0.0(+) | No |
-| Output format as Mp4                    | 1.0.0(+) | No |
-| Real-time watermark                        | 1.0.0(+) | No |
-| Real-time beautification/Filter                  | 1.0.0(+) | No |
-| Keyframe/non-keyframe preview              | 1.0.0(+) | No |
-| Video segment clip                      | 1.0.0(+) | No |
-| Make the GIF animated cover                | 1.0.0(+) | No |
-| Making transitions subtitle for video                     | 1.0.0(+) | No |
-| Text effects                       | 1.0.0(+) | No|
-| Dubbing                           | 1.0.0(+) | No |
-| Adjust the volume of original sound / background sound               | 1.0.0(+) | No |
-| Title / Ending  of video                    | 1.0.0    | No |
-| Images merge to be Mp4                    | 1.0.0(+) | No |
-| Third-party beautification interface                    | 1.0.0(+) | No |
-| Third-party filter interface                    | 1.0.0(+) | No |
-| Big eyes/Face-lifting                       | 1.0.0(+) | Contact us |
-| Sticker effects                        | 1.0.0(+) | Contact us |
-| Filter effects                        | 1.0.0(+) | Contact us |
-| Background replacement                         | 1.0.0(+) | Contact us |
-| Expression effects                         | 1.0.0(+) | Contact us |
-| Gesture recognition                      | 1.0.0(+) | Contact us |
-| Support for mainstream architecture like armv7、arm64、x86  | 1.0.0(+) | No |
-| Uploading to cloud-end                         | 1.0.1(+) | No |
-| Continue to transport after pause                        | 1.0.1(+) | No |
+### [iOS short video SDK feature list](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.md#features)
+### [Android short video SDK feature list](https://github.com/movieous-team/MovieousShortVideo-Android-Release/blob/master/README.md#features-list)
 
 ## Outstanding Features
 
