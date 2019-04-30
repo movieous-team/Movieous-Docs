@@ -5,7 +5,7 @@
 Dear developer, welcome to use the live streaming SDK from Movieous . This tutorial will guide you how to acheive integration of live video streaming functions in your iOS project. But first, we assume that you already know the underlying syntax of Objective-C or Swift.
 
 ### Add dependency
-* First, the [iOS live streaming SDK installation guide] (https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/README.md#how-to-install) for your reference to introduce MovieousLive to your project.
+* First, the [iOS live streaming SDK installation guide](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/README.md#how-to-install) for your reference to introduce MovieousLive to your project.
 
 ### Introduce related header files
 Add the following statement to the page original source file where you need to integrate the live streaming SDK
