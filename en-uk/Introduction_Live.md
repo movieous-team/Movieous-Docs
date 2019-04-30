@@ -17,36 +17,8 @@ MovieousLive is a one-step RTMP live stream SDK developed by [Movieous](https://
 
 ## Features list
 
-- [x] microphone audio data capture
-- [x] external audio data import
-- [x] camera video data capture
-- [x] UIVIew record
-- [x] external video data import
-- [x] H.264 video hardware encode
-- [x] AAC audio software encode
-- [x] RTMP protocol live streaming
-- [x] video resolution configurable
-- [x] embedded face beautification
-- [x] LUT(look up table) filter
-- [x] image sticker(watermark)
-- [x] external video processing plugin
-- [x] preview and encoded video mirror independently configurable
-- [x] embedded touch to focus
-- [x] torch mode configurable
-- [x] max and min capture frame rate configurable
-- [x] capture resolution configurable
-- [x] front and back camera switch
-- [x] video orientation configurable
-- [x] zoom factor configurable
-- [x] focus and exposure parameters configurable
-- [x] H.264 GOP length configurable
-- [x] H.264 profile level configurable
-- [x] mute
-- [x] audio and video bitrate configurable
-- [x] statistics for live streaming status
-- [x] pure audio streaming
-- [x] pure video streaming
-- [x] generate snapshot
+### [iOS live SDK feature list](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/README.md#features)
+### [Android live SDK feature list](https://github.com/movieous-team/MovieousLive-Android-Release/blob/master/README.md#features-list)
 
 ## Outstanding Features
 

@@ -1,53 +1,11 @@
 # iOS SDK
-##  Release Note
-
-### v2.1.0(2019-4-15)
-#### Feature
-- merge `MSVAudioClip` & `MSVVideoClip` to `MSVMixTrackClip`
-- add `MSVAuthentication` to authenticate SDK
-- add `MSVImageGenerator` to manage snapshots
-- add embedded beautification and other filters to `MSVRecorder`
-- add more camera controll operations including exposure mode, torch mode, etc.
-- add `scope` configuration for `MSVTimeEffect`
-
-### v2.0.1(2019-3-21)
-#### Features
-- add graffiti feature
-
-### v2.0.0(2019-3-19)
-#### Features
-- add size, location, rotation and background color configuration for `MSVMainTrackClip`
-- add video mix feature
-- separate `effects` to `basicEffects` and `timeEffects`
-- add current time notification for `MSVEditor`
-- rename some interfaces
-- remove max duration configuration for `MSVRecorder`, you can implement your own recorded time controll
-#### Fixes
-- fix many bugs found in v1.x.x
-
-### v1.0.3(2019-1-15)
-#### Features
-- fix video transform bug
-
-### v1.0.2(2018-12-27)
-#### Other
-- rename `MSVImagePasterEffect` to `MSVImageStickerEffect`
-- change interface documentation language to English
-
-### v1.0.1(2018-12-3)
-#### Features
-- support license authentication
-#### Fixes
-- fix preview error when media service is resetted because of frequent backgroud audio switch operations, etc.
-
-### v1.0.0(2018-11-28)
-- initial release
+## [CHANGELOG](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/CHANGELOG.zh-cn.md)
 
 ## Quict start
 Dear developer, welcome to use the short video SDK from Movieous . This tutorial will guide you how to acheive integration of short video recording, editing and exporting functions in your iOS project. But first, we assume that you already know the underlying syntax of Objective-C or Swift.
 
 ### Add dependency
-* First, the [iOS Short Video SDK Installation] (https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.md#how-to-install) for your reference to introduce MovieousShortVideo to your project.
+* First, the [iOS Short Video SDK installation guide] (https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.md#how-to-install) for your reference to introduce MovieousShortVideo to your project.
 
 ### Introduce related header files
 Add the following statement to the page original source file where you need to integrate the short video SDK

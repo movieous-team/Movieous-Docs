@@ -6,45 +6,8 @@
 
 ## 使用场景
 
-| 场景 |
-| - |
-| 泛娱乐直播秀场 |
-| 远程教育 |
-| 大型活动现场直播 |
-| 知识付费 |
-
-## 功能列表
-
-- [x] 麦克风音频采集
-- [x] 外部音频数据导入
-- [x] 摄像头视频采集
-- [x] UIView 录制
-- [x] 外部视频数据导入
-- [x] H.264 视频硬编
-- [x] AAC 音频软编
-- [x] RTMP 协议推流
-- [x] 自定义视频分辨率
-- [x] 内置美颜
-- [x] LUT(look up table) 滤镜
-- [x] 贴纸（水印）
-- [x] 外部视频处理插件
-- [x] 预览及编码的视频镜像独立配置
-- [x] 内置点击对焦
-- [x] 自定义手电筒模式
-- [x] 自定义最大最小采集帧率
-- [x] 自定义采集分辨率
-- [x] 前后摄像头切换
-- [x] 视频旋转
-- [x] 相机变焦
-- [x] 自定义对焦和曝光相关参数
-- [x] 自定义 H.264 GOP 长度
-- [x] 自定义 H.264 profile level
-- [x] 静音
-- [x] 自定义音视频码率
-- [x] 推流状态实时统计
-- [x] 纯音频推流
-- [x] 纯视频推流
-- [x] 生成快照
+### [iOS 直播 SDK 功能列表](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/README.zh-cn.md#%E5%8A%9F%E8%83%BD)
+### [Android 直播 SDK 功能列表](https://github.com/movieous-team/MovieousLive-Android-Release/blob/master/README.zh-cn.md#%E5%8A%9F%E8%83%BD%E7%89%B9%E6%80%A7)
 
 ## 产品特点
 
