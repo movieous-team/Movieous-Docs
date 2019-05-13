@@ -50,6 +50,21 @@ dependencies {
 }
 ```
 
+### 添加 java8 支持
+
+SDK 需要 java8 支持，在 app 模块的 'build.gradle' 的 `android` 中添加 java8 支持：
+
+```java
+android {
+    ...
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    ...
+}
+```
+
 ### 添加权限
 
 在 AndroidManifest.xml 中添加权限
