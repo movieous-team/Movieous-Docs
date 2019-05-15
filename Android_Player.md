@@ -1,14 +1,27 @@
 # Android SDK
 
-## Release Note
+## 发版说明
 
-### 2.0.0 版本发布
+### v2.0.2 (2019-05-15)
+
+- 2.0.2
+  - 发布 movieous-player-2.0.2.aar
+  - 增加 `RTMP` 协议播放支持
+  - `ULoadControl` 中增加 `setPauseBufferWithPlay` 接口，控制暂停播放后是否自动停止缓冲数据
+
+### v2.0.1 (2019-05-13)
+
+- 2.0.1
+  - 发布 movieous-player-2.0.1.aar
+  - 增加自定义缓冲区控制接口
+
+### v2.0.0 (2019-05-10)
 
 - 2.0.0
   - 发布 movieous-player-2.0.0.aar
   - 支持本地缓存，可以离线播放
   - 支持主流直播、点播播放
-  - 支持mp4、hls、dash、flv 常见播放协议
+  - 支持 mp4、hls、dash、flv 等常见播放协议
 
 ## 如何安装
 
@@ -227,3 +240,34 @@ mVideoView.seekTo(long milliSeconds);
 // 音量调节范围从 0.0 到 1.0
 mVideoView.setVolume(1.0f)
 ```
+
+#### 自定义缓冲区设置
+
+播放器允许您修改缓冲区的参数设置，以便更符合您的业务场景，接口如下：
+
+```java
+/**
+ * 自定义缓冲设置
+ * minBufferMs： 最小缓冲时间 默认 15000ms
+ * maxBufferMs： 最大缓冲时间 默认 50000ms
+ * bufferForPlaybackMs：首次缓冲开始播放时间，需要小于最小缓冲时间 默认 2500ms
+ * bufferForPlaybackAfterRebufferMs：再次缓冲开始播放时间，需要小于最小缓冲时间 5000ms
+ */
+ULoadControl myLoadControl = new ULoadControl(10000, 30000, 1000, 2000);
+// 是否播放暂停后自动停止缓冲，默认会继续缓冲到 maxBufferMs 停止
+myLoadControl.setPauseBufferWithPlay(true);
+MovieousPlayer.setLoadControl(myLoadControl);
+```
+
+#### `RTMP` 协议播放支持
+
+针对播放 `RTMP` 直播流的场景，推荐采用 `HTTP FLV` 协议播放，首开上具有一定的优势。如果您希望直接播放 `RTMP` 的流，可以参考如下设置，引入 `RTMP` 支持。
+
+添加 `RTMP` 扩展支持库：
+
+```java
+// for rtmp
+api 'net.butterflytv.utils:rtmp-client:3.0.1'
+```
+
+您可以正常播放 `RTMP` 流了。
