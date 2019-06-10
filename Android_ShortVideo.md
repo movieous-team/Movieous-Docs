@@ -2,6 +2,18 @@
 
 ## 发版说明
 
+### v2.0.8 (2019-06-10)
+
+- 2.0.8
+  - 增加内置美颜功能
+  - 增加视频合并接口
+  - 增加是否允许 `SDK` 异常捕获的接口
+  - 优化视频转码时音频格式适配
+  - 增加对异常视频转码的容错处理
+  - 修复偶现的编辑视频没有铺满预览画面的 `bug`
+  - 修复偶现的涂鸦画面与视频预览画面不匹配 `bug`
+  - 修复 `SDK` 异常捕获后，没有回调导致的 `APP` 异常处理框架可能无法捕获的 `bug`
+
 ### v2.0.7 (2019-05-17)
 
 - 2.0.7
@@ -1101,6 +1113,16 @@ public interface UAudioFrameListener {
      * 撤销画面裁剪
      */
     public void undoCropRegion()
+
+    /**
+     * 将多段视频片段合并成一个 mp4 文件
+     *
+     * @param videoList        视频文件列表
+     * @param outFile          保存文件路径
+     * @param transcodeEnabled 是否转码
+     * @param listener         保存事件监听
+     */
+    public void mergeVideo(List<String> videoList, String outFile, boolean transcodeEnabled, UVideoSaveListener listener)
 ```
 
 > 说明：保存编辑文件包含两种模式：<p>
