@@ -2,6 +2,12 @@
 
 ## 发版说明
 
+### v2.1.1 (2019-08-12)
+
+- 2.1.1
+  - 增加编辑预览时可以自定义播放器的接口
+  - 集成 `Movieous` 播放器 `SDK`，实现剪辑时精确 `seek`
+
 ### v2.1.0 (2019-07-23)
 
 - 2.1.0
@@ -1092,6 +1098,11 @@ public interface UAudioFrameListener {
      * @param maskFile mask file for alpha channel
      */
     public void setOverlayVideoFile(String mvFile, String maskFile)
+
+    /**
+     * 设置编辑预览时的自定义播放器
+     */
+    public UVideoEditManager setMediaPlayer(IMediaPlayer player)
 
     /**
      * 添加涂鸦
