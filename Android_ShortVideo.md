@@ -300,7 +300,7 @@ SDK 的接口设计，遵循了如下的原则：
 | :------------------------ | ----------- | ---------------- |
 | UVideoRecordManager       | 负责视频拍摄录制      | 无 |
 | UVideoEditManager         | 负责视频编辑处理      | 无 |
-| UImageEditManager         | 负责图片合成视频      | 无 |
+| UImageCombineManager      | 负责图片合成视频      | 无 |
 | UViewRecordManager        | 负责 view 录制       | 无 |
 | UMultiVideoRecordManager  | 负责视频合拍          | 无 |
 | USticker                  | 文字、图像等贴纸类     | 无 |
@@ -353,35 +353,35 @@ mVideoEditManager.transcode(mOutFile, trimTime);
 
 #### 图片合成
 
-创建并初始化 `UImageEditManager` 对象
+创建并初始化 `UImageCombineManager` 对象
 
 ```java
-mImageEditManager = new UImageEditManager();
-mImageEditManager.init(this, mRenderView);
+mImageCombineManager = new UImageCombineManager();
+mImageCombineManager.init(this, mRenderView);
 ```
 
 设置图片文件路径列表
 
 ```java
-mImageEditManager.setImageList(photos);
+mImageCombineManager.setImageList(photos);
 ```
 
 设置转场特效
 
 ```java
-mImageEditManager.changeTransfer(item.type);
+mImageCombineManager.changeTransfer(item.type);
 ```
 
 设置背景音乐
 
 ```java
-mImageEditManager.setMusic(musicFile);
+mImageCombineManager.setMusic(musicFile);
 ```
 
 预览合成文件效果，确认后保存文件
 
 ```java
-mImageEditManager.saveVideo(new UVideoSaveListener() {
+mImageCombineManager.saveVideo(new UVideoSaveListener() {
     @Override
     public void onVideoSaveProgress(float progress) {
         // 合成进度
@@ -1152,7 +1152,7 @@ public interface UAudioFrameListener {
 > 1、`save` 接口，离屏保存视频，保存的视频处理操作和当前预览的视频处理操作是分开的，速度更快；<p>
 > 2、`startRecord` 和 `stopRecord` 接口，直接录制当前预览画面显示的内容，可以分别摘取多个片段，然后进行合成保存，适用于边看边录制的模式.
 
-#### `UImageEditManager`
+#### `UImageCombineManager`
 
 该类提供了图片合成视频以及相应的转场特效功能，具体接口如下：
 
