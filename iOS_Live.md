@@ -1,11 +1,11 @@
 # iOS SDK
-## [版本更新日志](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/CHANGELOG.zh-cn.md)
+## [版本更新日志](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/CHANGELOG.md)
 
 ## 快速开始
 Hi, 亲爱的开发者，欢迎使用 Movieous 直播推流 SDK。本教程将引导你在自己的 iOS 工程中集成直播推流功能。不过首先，我们假定你已经了解 Objective-C 或 Swift 的基础语法。
 
 ### 添加依赖
-* 首先，你需要参考 [iOS 直播 SDK 安装](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/README.zh-cn.md#%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85) 将 MovieousLive 引入你的工程
+* 首先，你需要参考 [iOS 直播 SDK 安装](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/README.md#%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85) 将 MovieousLive 引入你的工程
 
 ### 引入相关头文件
 在您需要集成直播推流 SDK 的页面源文件中添加如下语句
@@ -163,4 +163,4 @@ Swift
 streamer.stopPushing();
 ```
 
-## [API Reference](https://developer.movieous.cn/ios/live/api-zh-cn/)
+## [API Reference](https://developer.movieous.cn/ios/live/api/)

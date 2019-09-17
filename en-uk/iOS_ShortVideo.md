@@ -1,11 +1,11 @@
 # iOS SDK
-## [CHANGELOG](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/CHANGELOG.zh-cn.md)
+## [CHANGELOG](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.en-us.md)
 
 ## Quict start
 Dear developer, welcome to use the short video SDK from Movieous . This tutorial will guide you how to acheive integration of short video recording, editing and exporting functions in your iOS project. But first, we assume that you already know the underlying syntax of Objective-C or Swift.
 
 ### Add dependency
-* First, the [iOS Short Video SDK installation guide](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.md#how-to-install) for your reference to introduce MovieousShortVideo to your project.
+* First, the [iOS Short Video SDK installation guide](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.en-us.md#how-to-install) for your reference to introduce MovieousShortVideo to your project.
 
 ### Introduce related header files
 Add the following statement to the page original source file where you need to integrate the short video SDK
@@ -27,7 +27,6 @@ Open the project configuration page and add `Privacy - Camera Usage Description`
 ![image](./images/authorization.png)
 
 - Generate configuration objects for audio and video and make modification to related parameters as requirements.
-
 
 Objective-C
 ```objective-c

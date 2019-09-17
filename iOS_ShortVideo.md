@@ -1,12 +1,12 @@
 # iOS SDK
 
-## [版本更新日志](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/CHANGELOG.zh-cn.md)
+## [版本更新日志](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/CHANGELOG.md)
 
 ## 快速开始
 Hi, 亲爱的开发者，欢迎使用 Movieous 短视频 SDK。本教程将引导你在自己的 iOS 工程中集成短视频录制，编辑及导出功能。不过首先，我们假定你已经了解 Objective-C 或 Swift 的基础语法。
 
 ### 添加依赖
-* 首先，你需要参考 [iOS 短视频 SDK 安装](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.zh-cn.md#%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85) 将 MovieousShortVideo 引入你的工程
+* 首先，你需要参考 [iOS 短视频 SDK 安装](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.md#%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%85) 将 MovieousShortVideo 引入你的工程
 
 ### 引入相关头文件
 在您需要集成短视频 SDK 的页面源文件中添加如下语句
@@ -322,9 +322,9 @@ exporter!.startExport();
 
 主轨片段是构成草稿的基本要素，草稿的主音视频由主轨片段的音视频顺序拼接产生，草稿的时长为所有主轨片段的时长总和。
 
-### 音效片段(MSVAudioClip)
+### 混合轨道片段(MSVMixTrackClip)
 
-音效片段是在主轨音频的基础上增加的背景音频，它按照指定的音量和主轨及其他有重合部分的音频进行混合形成目的视频的音频。
+混合轨道片段是在主轨音频的基础上增加的混合音视频片段，它按照指定的音量和主轨及其他有重合部分的音频进行混合形成目的视频的音频，按照指定的位置和填充模式将片段视频合成到目的视频中。
 
 ### 特效
 
@@ -342,4 +342,4 @@ exporter!.startExport();
 
 导出器接受草稿对象作为输入，导出为各种格式的目标文件
 
-## [API Reference](https://developer.movieous.cn/ios/shortvideo/api-zh-cn/)
+## [API Reference](https://developer.movieous.cn/ios/shortvideo/api/)

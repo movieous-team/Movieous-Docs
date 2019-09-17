@@ -6,8 +6,8 @@
 
 ## 使用场景
 
-### [iOS 直播 SDK 功能列表](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/README.zh-cn.md#%E5%8A%9F%E8%83%BD)
-### [Android 直播 SDK 功能列表](https://github.com/movieous-team/MovieousLive-Android-Release/blob/master/README.zh-cn.md#%E5%8A%9F%E8%83%BD%E7%89%B9%E6%80%A7)
+### [iOS 直播 SDK 功能列表](https://github.com/movieous-team/MovieousLive-Cocoa-Release/blob/master/README.md#%E5%8A%9F%E8%83%BD)
+### [Android 直播 SDK 功能列表](https://github.com/movieous-team/MovieousLive-Android-Release/blob/master/README.md#%E5%8A%9F%E8%83%BD%E7%89%B9%E6%80%A7)
 
 ## 产品特点
 

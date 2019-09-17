@@ -11,8 +11,8 @@
 
 ## Features list
 
-### [iOS short video SDK feature list](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.md#features)
-### [Android short video SDK feature list](https://github.com/movieous-team/MovieousShortVideo-Android-Release/blob/master/README.md#features-list)
+### [iOS short video SDK feature list](https://github.com/movieous-team/MovieousShortVideo-Cocoa-Release/blob/master/README.en-us.md#features)
+### [Android short video SDK feature list](https://github.com/movieous-team/MovieousShortVideo-Android-Release/blob/master/README.en-us.md#features-list)
 
 ## Outstanding Features
 
