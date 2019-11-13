@@ -2,6 +2,18 @@
 
 ## 发版说明
 
+### v2.1.4 (2019-11-13)
+
+- 2.1.4
+  - 增加动态贴纸演示
+  - 增加 `LUT` 滤镜接口
+
+### v2.1.3 (2019-11-01)
+
+- 2.1.3
+  - 优化录制时混音逻辑
+  - 修复 `v2.1.2` 版本带来的截图异常 `bug`
+
 ### v2.1.2 (2019-09-06)
 
 - 2.1.2
@@ -879,6 +891,23 @@ public interface UAudioFrameListener {
      * 设置拍照和录制时，是否自动开启闪光灯
      */
     public UVideoRecordManager setLightOnEnalbed(boolean lightOnEnalbed)
+
+    /**
+     * 设置 LUT 滤镜文件路径
+     * 512 * 512 3D lut
+     */
+    public void setFilterFile(String filterFile)
+
+    /**
+     * 设置 LUT 滤镜资源文件
+     * 512 * 512 3D lut
+     */
+    public void setFilterResource
+
+    /**
+     * 删除滤镜
+     */
+    public void removeFilter()
 ```
 
 #### `UVideoEditManager`
@@ -1123,7 +1152,7 @@ public interface UAudioFrameListener {
 
     /**
      * 设置获取当前纹理输出 buffer
-     * 说明：该接口会增加耗时，如无需要，请不有调用该接口
+     * 说明：该接口会增加耗时，如无需要，请不要调用该接口
      *
      * @param buffer
      */
@@ -1153,6 +1182,23 @@ public interface UAudioFrameListener {
      * @param listener         保存事件监听
      */
     public void mergeVideo(List<String> videoList, String outFile, boolean transcodeEnabled, UVideoSaveListener listener)
+
+    /**
+     * 设置 LUT 滤镜文件路径
+     * 512 * 512 3D lut
+     */
+    public void setFilterFile(String filterFile)
+
+    /**
+     * 设置 LUT 滤镜资源文件
+     * 512 * 512 3D lut
+     */
+    public void setFilterResource
+
+    /**
+     * 删除滤镜
+     */
+    public void removeFilter()
 ```
 
 > 说明：保存编辑文件包含两种模式：<p>
