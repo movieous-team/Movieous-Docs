@@ -230,6 +230,37 @@ public class VideoViewActivity extends Activity implements
 ...
 ```
 
+#### 播放状态监听
+
+`AnalyticsListener` 中的 `onPlayerStateChanged` 接口提供了播放过程中播放状态变化的回调。
+
+`onPlayerStateChanged` 接口定义如下：
+
+```java
+public void onPlayerStateChanged(EventTime eventTime, boolean playWhenReady, int playbackState)
+```
+
+播放状态定义如下：
+
+```java
+  /**
+   * 空闲状态.
+   */
+  int STATE_IDLE = 1;
+  /**
+   * 开始缓冲状态.
+   */
+  int STATE_BUFFERING = 2;
+  /**
+   * 正在播放状态
+   */
+  int STATE_READY = 3;
+  /**
+   * 播放完成状态.
+   */
+  int STATE_ENDED = 4;
+```
+
 #### 设置画面预览模式
 
 `VideoView` 提供了各种画面预览模式，包括：原始尺寸、适应屏幕、全屏铺满等，设置方法如下：
