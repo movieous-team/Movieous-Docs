@@ -326,4 +326,4 @@ The recorder mainly provides video segmentation recording function, which genera
 
 The editor provides real-time preview of drafts and previews the effects of draft editing in real time.
 
-## [API Reference](https://developer.movieous.cn/ios/shortvideo/api/)
+## [API Reference](https://developer.movieous.cn/ios/shortvideo/api-en-us/)
